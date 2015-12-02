@@ -1,0 +1,1 @@
+bin/ldap.osx
