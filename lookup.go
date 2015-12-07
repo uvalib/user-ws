@@ -2,7 +2,8 @@ package main
 
 import (
    "fmt"
-   //"log"
+   "log"
+   "time"
    "github.com/nmcclain/ldap"
 )
 
@@ -15,9 +16,11 @@ var (
 
 func LookupUser( userId string ) ( User, error ) {
 
+	start := time.Now( )
+
 	l, err := ldap.Dial("tcp", fmt.Sprintf("%s:%d", ldapServer, ldapPort))
 	if err != nil {
-		//log.Fatalf("ERROR: %s\n", err.Error())
+		log.Printf( "ERROR: %s\n", err.Error( ) )
 		return User{ }, err
 	}
 
@@ -39,11 +42,12 @@ func LookupUser( userId string ) ( User, error ) {
 
 	sr, err := l.Search(search)
 	if err != nil {
-		// log.Fatalf("ERROR: %s\n", err.Error())
+		log.Printf( "ERROR: %s\n", err.Error( ) )
 		return User{ }, err
 	}
 
 	if len( sr.Entries ) == 1 {
+		log.Printf( "Lookup %s OK\t%s", userId, time.Since( start ) )
         return User {
 		    UserId:       userId,
 			DisplayName:  sr.Entries[ 0 ].GetAttributeValue( "displayName" ),
@@ -58,6 +62,8 @@ func LookupUser( userId string ) ( User, error ) {
 			Email:        sr.Entries[ 0 ].GetAttributeValue( "mail" ),
 		}, nil
 	}
+
+   log.Printf( "Lookup %s NOT FOUND\t%s", userId, time.Since( start ) )
 
    // return empty user if not found
    return User{ }, nil

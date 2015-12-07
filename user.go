@@ -3,16 +3,16 @@ package main
 //import "time"
 
 type User struct {
-   UserId           string    `json:"cid"`
-   DisplayName      string    `json:"display_name"`
-   FirstName        string    `json:"first_name"`
-   Initials         string    `json:"initials"`
-   LastName         string    `json:"last_name"`
-   Description      string    `json:"description"`
-   Department       string    `json:"department"`
-   Title            string    `json:"title"`
-   Office           string    `json:"office"`
-   Phone            string    `json:"phone"`
-   Email            string    `json:"email"`
+   UserId           string    `json:"cid,omitempty"`
+   DisplayName      string    `json:"display_name,omitempty"`
+   FirstName        string    `json:"first_name,omitempty"`
+   Initials         string    `json:"initials,omitempty"`
+   LastName         string    `json:"last_name,omitempty"`
+   Description      string    `json:"description,omitempty"`
+   Department       string    `json:"department,omitempty"`
+   Title            string    `json:"title,omitempty"`
+   Office           string    `json:"office,omitempty"`
+   Phone            string    `json:"phone,omitempty"`
+   Email            string    `json:"email,omitempty"`
 }
 

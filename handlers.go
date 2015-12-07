@@ -18,22 +18,22 @@ func UserShow( w http.ResponseWriter, r *http.Request ) {
    user, err := LookupUser( userId )
 
    if err != nil {
-	   w.WriteHeader( http.StatusInternalServerError )
-	   return
+      w.WriteHeader( http.StatusInternalServerError )
+      return
    }
    
    if user.UserId == userId {
       w.WriteHeader( http.StatusOK )
-      if err := json.NewEncoder( w ).Encode( user ); err != nil {
+      if err := json.NewEncoder( w ).Encode( Response{ User: user, Status: http.StatusOK, Message: http.StatusText( http.StatusOK ) } ); err != nil {
          panic( err )
       }
-	   return
+      return
    }
 
    // If we didn't find it, 404
    w.WriteHeader( http.StatusNotFound )
-   //if err := json.NewEncoder(w).Encode(jsonErr{Code: http.StatusNotFound, Text: "Not Found"}); err != nil {
-   //   panic(err)
-   //}
+   if err := json.NewEncoder(w).Encode( Response{ Status: http.StatusNotFound, Message: http.StatusText( http.StatusNotFound ) } ); err != nil {
+      panic(err)
+   }
 
 }
