@@ -1,4 +1,4 @@
-package userws
+package main
 
 import (
    "fmt"
@@ -7,18 +7,13 @@ import (
    "github.com/nmcclain/ldap"
 )
 
-var (
-	ldapServer string   = "ldap.virginia.edu"
-	ldapPort   uint16   = 389
-	baseDN     string   = "o=University of Virginia,c=US"
-	Attributes []string = []string{"displayName", "givenName", "initials", "sn", "description", "uvaDisplayDepartment", "title", "physicalDeliveryOfficeName", "mail", "telephoneNumber"}
-)
+var	Attributes []string = []string{"displayName", "givenName", "initials", "sn", "description", "uvaDisplayDepartment", "title", "physicalDeliveryOfficeName", "mail", "telephoneNumber"}
 
 func LookupUser( userId string ) ( User, error ) {
 
 	start := time.Now( )
 
-	l, err := ldap.Dial("tcp", fmt.Sprintf("%s:%d", ldapServer, ldapPort))
+	l, err := ldap.Dial("tcp", config.LdapUrl )
 	if err != nil {
 		log.Printf( "ERROR: %s\n", err.Error( ) )
 		return User{ }, err
@@ -34,7 +29,7 @@ func LookupUser( userId string ) ( User, error ) {
 	//}
 
 	search := ldap.NewSearchRequest(
-		baseDN,
+		config.LdapBaseDn,
 		ldap.ScopeWholeSubtree, ldap.NeverDerefAliases, 0, 0, false,
 		fmt.Sprintf( "(userId=%s)", userId ),
 		Attributes,

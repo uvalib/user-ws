@@ -1,4 +1,4 @@
-package userws
+package main
 
 import (
    "net/http"

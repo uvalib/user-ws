@@ -1,6 +1,4 @@
-package userws
-
-//import "time"
+package main
 
 type Response struct {
    Status        int     `json:"status"`

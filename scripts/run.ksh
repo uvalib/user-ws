@@ -1,1 +1,1 @@
-bin/ldap.osx
+bin/user-ws
