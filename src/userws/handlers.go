@@ -2,11 +2,7 @@ package main
 
 import (
    "encoding/json"
-   //"fmt"
-   //"io"
-   //"io/ioutil"
    "net/http"
-   //"strconv"
    "github.com/gorilla/mux"
 )
 
@@ -36,4 +32,20 @@ func UserShow( w http.ResponseWriter, r *http.Request ) {
       panic(err)
    }
 
+}
+
+func HealthCheck( w http.ResponseWriter, r *http.Request ) {
+
+	healthy := true
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader( http.StatusOK )
+
+	user, err := LookupUser( config.HealthCheckUser )
+	if err != nil || user.UserId != config.HealthCheckUser {
+		healthy = false
+	}
+
+	if err := json.NewEncoder(w).Encode( HealthCheckResponse { CheckType: HealthCheckResult{ Healthy: healthy } } ); err != nil {
+		panic(err)
+	}
 }

@@ -21,6 +21,12 @@ var routes = Routes{
       "/user/{userId}",
       UserShow,
    },
+   Route{
+      "HealthCheck",
+      "GET",
+      "/healthcheck",
+      HealthCheck,
+   },
 }
 
 func NewRouter( ) *mux.Router {
