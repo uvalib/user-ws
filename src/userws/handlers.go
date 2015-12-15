@@ -37,15 +37,18 @@ func UserShow( w http.ResponseWriter, r *http.Request ) {
 func HealthCheck( w http.ResponseWriter, r *http.Request ) {
 
 	healthy := true
+	message := ""
+
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader( http.StatusOK )
 
 	user, err := LookupUser( config.HealthCheckUser )
 	if err != nil || user.UserId != config.HealthCheckUser {
 		healthy = false
+		message = err.Error( )
 	}
 
-	if err := json.NewEncoder(w).Encode( HealthCheckResponse { CheckType: HealthCheckResult{ Healthy: healthy } } ); err != nil {
+	if err := json.NewEncoder(w).Encode( HealthCheckResponse { CheckType: HealthCheckResult{ Healthy: healthy, Message: message } } ); err != nil {
 		panic(err)
 	}
 }

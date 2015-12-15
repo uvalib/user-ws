@@ -1,7 +1,8 @@
 package main
 
 type HealthCheckResult struct {
-	Healthy        bool `json:"healthy"`
+	Healthy        bool   `json:"healthy"`
+	Message        string `json:"message,omitempty"`
 }
 
 type HealthCheckResponse struct {

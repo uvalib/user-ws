@@ -13,7 +13,7 @@ func LookupUser( userId string ) ( User, error ) {
 
 	start := time.Now( )
 
-	l, err := ldap.Dial("tcp", config.LdapUrl )
+	l, err := ldap.DialTimeout("tcp", config.LdapUrl, time.Second * 10 )
 	if err != nil {
 		log.Printf( "ERROR: %s\n", err.Error( ) )
 		return User{ }, err
