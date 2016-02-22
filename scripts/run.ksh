@@ -1,1 +1,1 @@
-bin/user-ws
+bin/user-ws.darwin
