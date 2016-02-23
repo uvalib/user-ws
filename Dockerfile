@@ -1,8 +1,11 @@
-FROM alpine:3.1
+FROM centos:7
 
-RUN apk add --update bash && rm -rf /var/cache/apk/*
+ENV APP_HOME /user-ws
+RUN mkdir -p $APP_HOME/scripts $APP_HOME/bin
 
 EXPOSE 8080
-CMD ./user-ws
+CMD scripts/entry.sh
+WORKDIR $APP_HOME
 
-COPY bin/user-ws.linux user-ws
+COPY scripts/entry.sh $APP_HOME/scripts/entry.sh
+COPY bin/user-ws.linux $APP_HOME/bin/user-ws
