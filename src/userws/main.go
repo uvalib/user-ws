@@ -11,7 +11,7 @@ var config = Configuration{ }
 
 func main( ) {
 
-	// process command line flags and serup configuration
+	// process command line flags and setup configuration
 	flag.StringVar( &config.Port, "port", "8080", "The service listen port")
 	flag.StringVar( &config.LdapUrl, "url", "ldap.virginia.edu:389", "The ldap hostname:port")
 	flag.StringVar( &config.LdapBaseDn, "basedn", "o=University of Virginia,c=US", "The ldap base DN")

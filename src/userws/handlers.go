@@ -4,6 +4,7 @@ import (
    "encoding/json"
    "net/http"
    "github.com/gorilla/mux"
+    "userws/api"
 )
 
 func UserShow( w http.ResponseWriter, r *http.Request ) {
@@ -20,7 +21,7 @@ func UserShow( w http.ResponseWriter, r *http.Request ) {
    
    if user.UserId == userId {
       w.WriteHeader( http.StatusOK )
-      if err := json.NewEncoder( w ).Encode( Response{ User: user, Status: http.StatusOK, Message: http.StatusText( http.StatusOK ) } ); err != nil {
+      if err := json.NewEncoder( w ).Encode( api.StandardResponse{ User: user, Status: http.StatusOK, Message: http.StatusText( http.StatusOK ) } ); err != nil {
          panic( err )
       }
       return
@@ -28,7 +29,7 @@ func UserShow( w http.ResponseWriter, r *http.Request ) {
 
    // If we didn't find it, 404
    w.WriteHeader( http.StatusNotFound )
-   if err := json.NewEncoder(w).Encode( Response{ Status: http.StatusNotFound, Message: http.StatusText( http.StatusNotFound ) } ); err != nil {
+   if err := json.NewEncoder(w).Encode( api.StandardResponse{ Status: http.StatusNotFound, Message: http.StatusText( http.StatusNotFound ) } ); err != nil {
       panic(err)
    }
 
@@ -48,7 +49,7 @@ func HealthCheck( w http.ResponseWriter, r *http.Request ) {
 		message = err.Error( )
 	}
 
-	if err := json.NewEncoder(w).Encode( HealthCheckResponse { CheckType: HealthCheckResult{ Healthy: healthy, Message: message } } ); err != nil {
+	if err := json.NewEncoder(w).Encode( api.HealthCheckResponse { CheckType: api.HealthCheckResult{ Healthy: healthy, Message: message } } ); err != nil {
 		panic(err)
 	}
 }

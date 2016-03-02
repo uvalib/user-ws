@@ -5,18 +5,19 @@ import (
    "log"
    "time"
    "github.com/nmcclain/ldap"
+    "userws/api"
 )
 
 var	Attributes []string = []string{"displayName", "givenName", "initials", "sn", "description", "uvaDisplayDepartment", "title", "physicalDeliveryOfficeName", "mail", "telephoneNumber"}
 
-func LookupUser( userId string ) ( User, error ) {
+func LookupUser( userId string ) ( api.User, error ) {
 
 	start := time.Now( )
 
 	l, err := ldap.DialTimeout("tcp", config.LdapUrl, time.Second * 10 )
 	if err != nil {
 		log.Printf( "ERROR: %s\n", err.Error( ) )
-		return User{ }, err
+		return api.User{ }, err
 	}
 
 	defer l.Close()
@@ -38,12 +39,12 @@ func LookupUser( userId string ) ( User, error ) {
 	sr, err := l.Search(search)
 	if err != nil {
 		log.Printf( "ERROR: %s\n", err.Error( ) )
-		return User{ }, err
+		return api.User{ }, err
 	}
 
 	if len( sr.Entries ) == 1 {
 		log.Printf( "Lookup %s OK\t%s", userId, time.Since( start ) )
-        return User {
+        return api.User {
 		    UserId:       userId,
 			DisplayName:  sr.Entries[ 0 ].GetAttributeValue( "displayName" ),
 			FirstName:    sr.Entries[ 0 ].GetAttributeValue( "givenName" ),
@@ -61,5 +62,5 @@ func LookupUser( userId string ) ( User, error ) {
    log.Printf( "Lookup %s NOT FOUND\t%s", userId, time.Since( start ) )
 
    // return empty user if not found
-   return User{ }, nil
+   return api.User{ }, nil
 }

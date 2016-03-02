@@ -1,6 +1,4 @@
-package main
-
-//import "time"
+package api
 
 type User struct {
    UserId           string    `json:"cid,omitempty"`
