@@ -17,7 +17,7 @@ func Validate( endpoint string, token string ) bool {
     resp, _, errs := gorequest.New( ).
        SetDebug( false ).
        Get( url  ).
-       Timeout( time.Duration( 5 ) * time.Second ).
+       Timeout( time.Duration( 2 ) * time.Second ).
        End( )
     duration := time.Since( start )
 
