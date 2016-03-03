@@ -1,9 +1,9 @@
 package main
 
 import (
-   "encoding/json"
-   "net/http"
-   "github.com/gorilla/mux"
+    "encoding/json"
+    "net/http"
+    "github.com/gorilla/mux"
     "userws/api"
     "log"
     "strings"
@@ -23,7 +23,7 @@ func UserShow( w http.ResponseWriter, r *http.Request ) {
     }
 
     // validate the token
-    if authtoken.Validate( token ) == false {
+    if authtoken.Validate( config.AuthTokenEndpoint, token ) == false {
         encodeStandardResponse(w, http.StatusForbidden, nil )
         return
     }
