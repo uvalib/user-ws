@@ -5,34 +5,46 @@ import (
    "net/http"
    "github.com/gorilla/mux"
     "userws/api"
+    "log"
+    "strings"
+    "userws/ldap"
+    "userws/authtoken"
 )
 
 func UserShow( w http.ResponseWriter, r *http.Request ) {
-   vars := mux.Vars(r)
-   userId := vars["userId"]
+    vars := mux.Vars(r)
+    userId := vars["userId"]
+    token := r.URL.Query( ).Get( "auth" )
 
-   w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-   user, err := LookupUser( userId )
+    // parameters OK ?
+    if parametersOk( userId, token ) == false {
+        encodeStandardResponse(w, http.StatusBadRequest, nil )
+        return
+    }
 
-   if err != nil {
-      w.WriteHeader( http.StatusInternalServerError )
-      return
-   }
-   
-   if user.UserId == userId {
-      w.WriteHeader( http.StatusOK )
-      if err := json.NewEncoder( w ).Encode( api.StandardResponse{ User: user, Status: http.StatusOK, Message: http.StatusText( http.StatusOK ) } ); err != nil {
-         panic( err )
-      }
-      return
-   }
+    // validate the token
+    if authtoken.Validate( token ) == false {
+        encodeStandardResponse(w, http.StatusForbidden, nil )
+        return
+    }
 
-   // If we didn't find it, 404
-   w.WriteHeader( http.StatusNotFound )
-   if err := json.NewEncoder(w).Encode( api.StandardResponse{ Status: http.StatusNotFound, Message: http.StatusText( http.StatusNotFound ) } ); err != nil {
-      panic(err)
-   }
+    // do the lookup
+    user, err := ldap.LookupUser( config.LdapUrl, config.LdapBaseDn, userId )
 
+    // lookup error?
+    if err != nil {
+        encodeStandardResponse( w, http.StatusInternalServerError, nil )
+        return
+    }
+
+    // user not found (probably an error)?
+    if user == nil {
+        encodeStandardResponse( w, http.StatusNotFound, nil )
+        return
+    }
+
+    // all good...
+    encodeStandardResponse( w, http.StatusOK, user )
 }
 
 func HealthCheck( w http.ResponseWriter, r *http.Request ) {
@@ -40,16 +52,40 @@ func HealthCheck( w http.ResponseWriter, r *http.Request ) {
 	healthy := true
 	message := ""
 
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader( http.StatusOK )
-
-	user, err := LookupUser( config.HealthCheckUser )
-	if err != nil || user.UserId != config.HealthCheckUser {
+	user, err := ldap.LookupUser( config.LdapUrl, config.LdapBaseDn, config.HealthCheckUser )
+	if err != nil {
 		healthy = false
 		message = err.Error( )
-	}
+	} else if user == nil {
+        healthy = false
+    }
 
-	if err := json.NewEncoder(w).Encode( api.HealthCheckResponse { CheckType: api.HealthCheckResult{ Healthy: healthy, Message: message } } ); err != nil {
-		panic(err)
-	}
+    encodeHealthCheckResponse( w, http.StatusOK, healthy, message )
+}
+
+func encodeStandardResponse( w http.ResponseWriter, status int, user * api.User ) {
+    jsonResponse( w )
+    w.WriteHeader( status )
+    if err := json.NewEncoder(w).Encode( api.StandardResponse{ Status: status, Message: http.StatusText( status ), User: user } ); err != nil {
+        log.Fatal( err )
+    }
+}
+
+func encodeHealthCheckResponse( w http.ResponseWriter, status int, healthy bool, message string ) {
+    jsonResponse( w )
+    w.WriteHeader( status )
+    if err := json.NewEncoder(w).Encode( api.HealthCheckResponse { CheckType: api.HealthCheckResult{ Healthy: healthy, Message: message } } ); err != nil {
+        log.Fatal( err )
+    }
+}
+
+func jsonResponse( w http.ResponseWriter ) {
+    w.Header( ).Set( "Content-Type", "application/json; charset=UTF-8" )
+}
+
+func parametersOk( userId string, token string ) bool {
+    // validate inbound parameters
+    return len( strings.TrimSpace( userId ) ) != 0 &&
+           len( strings.TrimSpace( token ) ) != 0
+
 }
