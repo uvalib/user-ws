@@ -3,7 +3,6 @@ package main
 import (
     "io/ioutil"
     "log"
-    "fmt"
     "testing"
     "userws/client"
     "gopkg.in/yaml.v2"
@@ -23,6 +22,14 @@ var badUser = "xxyyzz"
 var goodToken = cfg.Token
 var badToken = "badness"
 var empty = " "
+
+func TestHealthCheck( t *testing.T ) {
+    expected := http.StatusOK
+    status := client.HealthCheck( cfg.Endpoint )
+    if status != expected {
+        t.Fatalf( "Expected %v, got %v\n", expected, status )
+    }
+}
 
 func TestHappyDay( t *testing.T ) {
     expected := http.StatusOK
@@ -82,14 +89,6 @@ func TestBadToken( t *testing.T ) {
     }
 }
 
-func TestHealthCheck( t *testing.T ) {
-    expected := http.StatusOK
-    status := client.HealthCheck( cfg.Endpoint )
-    if status != expected {
-        t.Fatalf( "Expected %v, got %v\n", expected, status )
-    }
-}
-
 func emptyField( field string ) bool {
     return len( strings.TrimSpace( field ) ) == 0
 }
@@ -106,8 +105,8 @@ func loadConfig( ) TestConfig {
         log.Fatal( err )
     }
 
-    fmt.Printf( "endpoint [%s]\n", c.Endpoint )
-    fmt.Printf( "token    [%s]\n", c.Token )
+    log.Printf( "endpoint [%s]\n", c.Endpoint )
+    log.Printf( "token    [%s]\n", c.Token )
 
     return c
 }
