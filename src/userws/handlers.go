@@ -9,6 +9,7 @@ import (
     "strings"
     "userws/ldap"
     "userws/authtoken"
+    "userws/config"
 )
 
 func UserShow( w http.ResponseWriter, r *http.Request ) {
@@ -23,13 +24,13 @@ func UserShow( w http.ResponseWriter, r *http.Request ) {
     }
 
     // validate the token
-    if authtoken.Validate( config.AuthTokenEndpoint, token ) == false {
+    if authtoken.Validate( config.Configuration.AuthTokenEndpoint, token ) == false {
         encodeStandardResponse(w, http.StatusForbidden, nil )
         return
     }
 
     // do the lookup
-    user, err := ldap.LookupUser( config.LdapUrl, config.LdapBaseDn, userId )
+    user, err := ldap.LookupUser( config.Configuration.LdapUrl, config.Configuration.LdapBaseDn, userId )
 
     // lookup error?
     if err != nil {
@@ -52,7 +53,7 @@ func HealthCheck( w http.ResponseWriter, r *http.Request ) {
 	healthy := true
 	message := ""
 
-	user, err := ldap.LookupUser( config.LdapUrl, config.LdapBaseDn, config.HealthCheckUser )
+	user, err := ldap.LookupUser( config.Configuration.LdapUrl, config.Configuration.LdapBaseDn, config.Configuration.HealthCheckUser )
 	if err != nil {
 		healthy = false
 		message = err.Error( )
