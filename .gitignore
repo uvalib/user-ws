@@ -5,3 +5,6 @@ src/gopkg.in
 bin
 pkg
 src/userws/service_test.yml
+
+env.set
+env.unset
