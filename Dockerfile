@@ -28,3 +28,6 @@ CMD scripts/entry.sh
 # Move in necessary assets
 COPY scripts/entry.sh $APP_HOME/scripts/entry.sh
 COPY bin/user-ws.linux $APP_HOME/bin/user-ws
+
+# Add the build tag
+COPY buildtag.* $APP_HOME/
