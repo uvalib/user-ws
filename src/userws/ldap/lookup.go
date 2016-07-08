@@ -43,7 +43,7 @@ func LookupUser( endpoint string, baseDn string, userId string ) ( * api.User, e
 	}
 
 	if len( sr.Entries ) == 1 {
-		log.Printf( "Lookup %s OK\t%s", userId, time.Since( start ) )
+		log.Printf( "Lookup %s OK, time %s", userId, time.Since( start ) )
         return &api.User {
 		    UserId:       userId,
 			DisplayName:  sr.Entries[ 0 ].GetAttributeValue( "displayName" ),
@@ -59,7 +59,7 @@ func LookupUser( endpoint string, baseDn string, userId string ) ( * api.User, e
 		}, nil
 	}
 
-   log.Printf( "Lookup %s NOT FOUND\t%s", userId, time.Since( start ) )
+   log.Printf( "Lookup %s NOT FOUND, time %s", userId, time.Since( start ) )
 
    // return empty user if not found
    return nil, nil
