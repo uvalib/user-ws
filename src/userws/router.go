@@ -15,18 +15,27 @@ type Route struct {
 type Routes [] Route
 
 var routes = Routes{
-   Route{
-      "UserShow",
-      "GET",
-      "/user/{userId}",
-      UserShow,
-   },
-   Route{
-      "HealthCheck",
-      "GET",
-      "/healthcheck",
-      HealthCheck,
-   },
+
+    Route{
+       "UserShow",
+       "GET",
+       "/user/{userId}",
+       UserShow,
+    },
+
+    Route{
+       "HealthCheck",
+       "GET",
+       "/healthcheck",
+       HealthCheck,
+    },
+
+    Route{
+        "GetVersion",
+        "GET",
+        "/version",
+        GetVersion,
+    },
 }
 
 func NewRouter( ) *mux.Router {

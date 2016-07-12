@@ -6,6 +6,7 @@ import (
 )
 
 type Config struct {
+    ServiceName        string
     Port               string
     LdapUrl            string
     LdapBaseDn         string
@@ -17,7 +18,7 @@ var Configuration = LoadConfig( )
 
 func LoadConfig( ) Config {
 
-    c := Config{}
+    c := Config{ ServiceName: "USERINFO" }
 
     // process command line flags and setup configuration
     flag.StringVar( &c.Port, "port", "8080", "The service listen port")

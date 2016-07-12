@@ -31,6 +31,18 @@ func TestHealthCheck( t *testing.T ) {
     }
 }
 
+func TestVersionCheck( t *testing.T ) {
+    expected := http.StatusOK
+    status, version := client.VersionCheck( cfg.Endpoint )
+    if status != expected {
+        t.Fatalf( "Expected %v, got %v\n", expected, status )
+    }
+
+    if len( version ) == 0 {
+        t.Fatalf( "Expected non-zero length version string\n" )
+    }
+}
+
 func TestHappyDay( t *testing.T ) {
     expected := http.StatusOK
     status, user := client.UserDetails( cfg.Endpoint, goodUser, goodToken )
