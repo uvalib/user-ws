@@ -2,10 +2,10 @@ package ldap
 
 import (
    "fmt"
-   "log"
    "time"
    "github.com/nmcclain/ldap"
     "userws/api"
+    "userws/logger"
 )
 
 var	Attributes []string = []string{"displayName", "givenName", "initials", "sn", "description", "uvaDisplayDepartment", "title", "physicalDeliveryOfficeName", "mail", "telephoneNumber"}
@@ -16,7 +16,7 @@ func LookupUser( endpoint string, baseDn string, userId string ) ( * api.User, e
 
 	l, err := ldap.DialTimeout("tcp", endpoint, time.Second * 10 )
 	if err != nil {
-		log.Printf( "ERROR: %s\n", err.Error( ) )
+        logger.Log( fmt.Sprintf( "ERROR: %s\n", err.Error( ) ) )
 		return nil, err
 	}
 
@@ -25,7 +25,7 @@ func LookupUser( endpoint string, baseDn string, userId string ) ( * api.User, e
 
 	//err = l.Bind(user, passwd)
 	//if err != nil {
-	//   log.Printf("ERROR: Cannot bind: %s\n", err.Error())
+	//   logger.Log( fmt.Sprintf("ERROR: Cannot bind: %s\n", err.Error() ) )
 	//   return
 	//}
 
@@ -38,12 +38,12 @@ func LookupUser( endpoint string, baseDn string, userId string ) ( * api.User, e
 
 	sr, err := l.Search(search)
 	if err != nil {
-		log.Printf( "ERROR: %s\n", err.Error( ) )
+        logger.Log( fmt.Sprintf( "ERROR: %s\n", err.Error( ) ) )
 		return nil, err
 	}
 
 	if len( sr.Entries ) == 1 {
-		log.Printf( "Lookup %s OK, time %s", userId, time.Since( start ) )
+        logger.Log( fmt.Sprintf( "Lookup %s OK, time %s", userId, time.Since( start ) ) )
         return &api.User {
 		    UserId:       userId,
 			DisplayName:  sr.Entries[ 0 ].GetAttributeValue( "displayName" ),
@@ -59,7 +59,7 @@ func LookupUser( endpoint string, baseDn string, userId string ) ( * api.User, e
 		}, nil
 	}
 
-   log.Printf( "Lookup %s NOT FOUND, time %s", userId, time.Since( start ) )
+    logger.Log( fmt.Sprintf( "Lookup %s NOT FOUND, time %s", userId, time.Since( start ) ) )
 
    // return empty user if not found
    return nil, nil

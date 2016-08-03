@@ -5,11 +5,12 @@ import (
     "log"
     "net/http"
     "userws/config"
+    "userws/logger"
 )
 
 func main( ) {
 
-    log.Printf( "===> %s version: '%s' <===", config.Configuration.ServiceName, Version( ) )
+    logger.Log( fmt.Sprintf( "===> version: '%s' <===", Version( ) ) )
 
     // setup router and serve...
     router := NewRouter( )

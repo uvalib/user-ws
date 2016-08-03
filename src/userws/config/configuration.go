@@ -2,7 +2,8 @@ package config
 
 import (
     "flag"
-    "log"
+    "userws/logger"
+    "fmt"
 )
 
 type Config struct {
@@ -18,7 +19,7 @@ var Configuration = LoadConfig( )
 
 func LoadConfig( ) Config {
 
-    c := Config{ ServiceName: "USERINFO" }
+    c := Config{ }
 
     // process command line flags and setup configuration
     flag.StringVar( &c.Port, "port", "8080", "The service listen port")
@@ -29,11 +30,11 @@ func LoadConfig( ) Config {
 
     flag.Parse()
 
-    log.Printf( "Port:                %s", c.Port )
-    log.Printf( "LDAP endpoint:       %s", c.LdapUrl )
-    log.Printf( "DN:                  %s", c.LdapBaseDn )
-    log.Printf( "Health check user:   %s", c.HealthCheckUser )
-    log.Printf( "Token auth endpoint: %s", c.AuthTokenEndpoint )
+    logger.Log( fmt.Sprintf( "Port:                %s", c.Port ) )
+    logger.Log( fmt.Sprintf( "LDAP endpoint:       %s", c.LdapUrl ) )
+    logger.Log( fmt.Sprintf( "DN:                  %s", c.LdapBaseDn ) )
+    logger.Log( fmt.Sprintf( "Health check user:   %s", c.HealthCheckUser ) )
+    logger.Log( fmt.Sprintf( "Token auth endpoint: %s", c.AuthTokenEndpoint ) )
 
     return c
 }
