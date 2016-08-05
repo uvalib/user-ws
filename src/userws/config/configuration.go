@@ -13,6 +13,7 @@ type Config struct {
     LdapBaseDn         string
     HealthCheckUser    string
     AuthTokenEndpoint  string
+    Debug              bool
 }
 
 var Configuration = LoadConfig( )
@@ -27,6 +28,7 @@ func LoadConfig( ) Config {
     flag.StringVar( &c.LdapBaseDn, "basedn", "o=University of Virginia,c=US", "The ldap base DN")
     flag.StringVar( &c.HealthCheckUser, "hcuser", "dpg3k", "The search name used for the health check")
     flag.StringVar( &c.AuthTokenEndpoint, "tokenauth", "http://docker1.lib.virginia.edu:8200", "The token authentication endpoint")
+    flag.BoolVar( &c.Debug, "debug", false, "Enable debugging")
 
     flag.Parse()
 
@@ -35,6 +37,7 @@ func LoadConfig( ) Config {
     logger.Log( fmt.Sprintf( "DN:                  %s", c.LdapBaseDn ) )
     logger.Log( fmt.Sprintf( "Health check user:   %s", c.HealthCheckUser ) )
     logger.Log( fmt.Sprintf( "Token auth endpoint: %s", c.AuthTokenEndpoint ) )
+    logger.Log( fmt.Sprintf( "Debug                %t", c.Debug ) )
 
     return c
 }

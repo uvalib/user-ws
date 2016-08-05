@@ -18,7 +18,7 @@ if [ -n "$USERINFO_DEBUG" ]; then
    DEBUG_OPT="--debug"
 fi
 
-bin/user-ws $LDAPURL_OPT $TOKENURL_OPT
+bin/user-ws $LDAPURL_OPT $TOKENURL_OPT $DEBUG_OPT
 
 #
 # end of file
