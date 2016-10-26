@@ -14,7 +14,7 @@ func LookupUser( endpoint string, baseDn string, userId string ) ( * api.User, e
 
 	start := time.Now( )
 
-	l, err := ldap.DialTimeout("tcp", endpoint, time.Second * 10 )
+	l, err := ldap.DialTimeout("tcp", endpoint, time.Second * 5 )
 	if err != nil {
         logger.Log( fmt.Sprintf( "ERROR: %s\n", err.Error( ) ) )
 		return nil, err
