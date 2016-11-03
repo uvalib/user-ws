@@ -1,0 +1,7 @@
+.git
+.idea
+env.*
+buildtag.*
+pkg/*
+src/*
+LICENSE.md
