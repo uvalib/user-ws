@@ -1,7 +1,16 @@
-export GOPATH=$(pwd)
-go get github.com/nmcclain/ldap
-go get github.com/gorilla/mux
-go get github.com/parnurzeal/gorequest
+if [ -z "$GOPATH" ]; then
+   echo "ERROR: $GOPATH not defined"
+   exit 1
+fi
+
+cd $GOPATH/src
+rm -fr vendor
+
+go get -u github.com/FiloSottile/gvt
+
+gvt fetch github.com/nmcclain/ldap
+gvt fetch github.com/gorilla/mux
+gvt fetch github.com/parnurzeal/gorequest
 
 # for tests
-go get gopkg.in/yaml.v2
+gvt fetch gopkg.in/yaml.v2
