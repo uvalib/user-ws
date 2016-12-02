@@ -7,6 +7,8 @@ import (
     "net/http"
     "userws/api"
     "encoding/json"
+    "io"
+    "io/ioutil"
 )
 
 func HealthCheck( endpoint string ) int {
@@ -24,6 +26,7 @@ func HealthCheck( endpoint string ) int {
         return http.StatusInternalServerError
     }
 
+    defer io.Copy( ioutil.Discard, resp.Body )
     defer resp.Body.Close( )
 
     return resp.StatusCode
@@ -44,6 +47,7 @@ func VersionCheck( endpoint string ) ( int, string ) {
         return http.StatusInternalServerError, ""
     }
 
+    defer io.Copy( ioutil.Discard, resp.Body )
     defer resp.Body.Close( )
 
     r := api.VersionResponse{ }
@@ -70,6 +74,7 @@ func UserDetails( endpoint string, username string, token string ) ( int, * api.
        return http.StatusInternalServerError, nil
     }
 
+    defer io.Copy( ioutil.Discard, resp.Body )
     defer resp.Body.Close( )
 
     r := api.StandardResponse{ }
