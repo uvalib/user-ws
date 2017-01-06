@@ -3,6 +3,7 @@ package main
 import (
    "net/http"
    "github.com/gorilla/mux"
+        "userws/handlers"
 )
 
 type Route struct {
@@ -17,24 +18,24 @@ type Routes [] Route
 var routes = Routes{
 
     Route{
-       "UserShow",
+       "UserLookup",
        "GET",
        "/user/{userId}",
-       UserShow,
+       handlers.UserLookup,
     },
 
     Route{
        "HealthCheck",
        "GET",
        "/healthcheck",
-       HealthCheck,
+       handlers.HealthCheck,
     },
 
     Route{
-        "GetVersion",
+        "VersionInfo",
         "GET",
         "/version",
-        GetVersion,
+        handlers.VersionInfo,
     },
 }
 
