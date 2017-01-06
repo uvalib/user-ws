@@ -37,6 +37,13 @@ var routes = Routes{
         "/version",
         handlers.VersionInfo,
     },
+
+    Route{
+        "RuntimeInfo",
+        "GET",
+        "/runtime",
+        handlers.RuntimeInfo,
+    },
 }
 
 func NewRouter( ) *mux.Router {
