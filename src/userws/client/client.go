@@ -59,6 +59,33 @@ func VersionCheck( endpoint string ) ( int, string ) {
     return resp.StatusCode, r.Version
 }
 
+func RuntimeCheck( endpoint string ) ( int, * api.RuntimeResponse ) {
+
+    url := fmt.Sprintf( "%s/runtime", endpoint )
+    //fmt.Printf( "%s\n", url )
+
+    resp, body, errs := gorequest.New( ).
+            SetDebug( false ).
+            Get( url  ).
+            Timeout( time.Duration( 5 ) * time.Second ).
+            End( )
+
+    if errs != nil {
+        return http.StatusInternalServerError, nil
+    }
+
+    defer io.Copy( ioutil.Discard, resp.Body )
+    defer resp.Body.Close( )
+
+    r := api.RuntimeResponse{ }
+    err := json.Unmarshal( []byte( body ), &r )
+    if err != nil {
+        return http.StatusInternalServerError, nil
+    }
+
+    return resp.StatusCode, &r
+}
+
 func UserDetails( endpoint string, username string, token string ) ( int, * api.User ) {
 
     url := fmt.Sprintf( "%s/user/%s?auth=%s", endpoint, username, token )
