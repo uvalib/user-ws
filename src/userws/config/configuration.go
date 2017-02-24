@@ -26,7 +26,7 @@ func LoadConfig( ) Config {
     // process command line flags and setup configuration
     flag.StringVar( &c.Port, "port", "8080", "The service listen port")
     flag.StringVar( &c.EndpointUrl, "url", "ldap.virginia.edu:389", "The ldap hostname:port")
-    flag.IntVar( &c.Timeout, "timeout", 15, "The connect timeout in seconds")
+    flag.IntVar( &c.Timeout, "timeout", 15, "The external service timeout in seconds")
     flag.StringVar( &c.LdapBaseDn, "basedn", "o=University of Virginia,c=US", "The ldap base DN")
     flag.StringVar( &c.HealthCheckUser, "hcuser", "dpg3k", "The search name used for the health check")
     flag.StringVar( &c.AuthTokenEndpoint, "tokenauth", "http://docker1.lib.virginia.edu:8200", "The token authentication endpoint")
