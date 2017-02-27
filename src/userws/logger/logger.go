@@ -5,5 +5,5 @@ import (
 )
 
 func Log( msg string ) {
-    log.Printf( "USERINFO: %s", msg )
+    log.Printf( "%s", msg )
 }
