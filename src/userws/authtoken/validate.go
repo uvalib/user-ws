@@ -10,7 +10,7 @@ import (
     "io/ioutil"
 )
 
-func Validate( endpoint string, timeout int, token string ) bool {
+func Validate( endpoint string, token string, timeout int ) bool {
 
     url := fmt.Sprintf( "%s/authorize/%s/%s/%s", endpoint, "userservice", "userlookup", token )
     //log.Printf( "%s\n", url )
