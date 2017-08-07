@@ -8,7 +8,6 @@ import (
    "testing"
    "userws/client"
    "gopkg.in/yaml.v2"
-   "vendor/gopkg.in/yaml.v2"
 )
 
 type TestConfig struct {
