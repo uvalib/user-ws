@@ -10,7 +10,7 @@ import (
    "gopkg.in/yaml.v2"
 )
 
-type TestConfig struct {
+type testConfig struct {
    TestUser string
    Endpoint string
    Token    string
@@ -57,14 +57,14 @@ func TestRuntimeCheck(t *testing.T) {
 
    if len( runtime.Version ) == 0 ||
       runtime.AllocatedMemory == 0 ||
-      runtime.CpuCount == 0 ||
+      runtime.CPUCount == 0 ||
       runtime.GoRoutineCount == 0 ||
       runtime.ObjectCount == 0 {
       t.Fatalf("Expected non-zero value in runtime info but one is zero\n")
    }
 }
 
-func TestHappyDay(t *testing.T) {
+func TestUserDetailsHappyDay(t *testing.T) {
    expected := http.StatusOK
    status, user := client.UserDetails(cfg.Endpoint, goodUser, goodToken)
    if status != expected {
@@ -75,7 +75,7 @@ func TestHappyDay(t *testing.T) {
       t.Fatalf("Expected to find user %v and did not\n", goodUser)
    }
 
-   if emptyField(user.UserId) ||
+   if emptyField(user.UserID) ||
       emptyField(user.DisplayName) ||
       emptyField(user.FirstName) ||
       emptyField(user.Initials) ||
@@ -90,7 +90,7 @@ func TestHappyDay(t *testing.T) {
    }
 }
 
-func TestEmptyUser(t *testing.T) {
+func TestUserDetailsEmptyUser(t *testing.T) {
    expected := http.StatusBadRequest
    status, _ := client.UserDetails(cfg.Endpoint, empty, goodToken)
    if status != expected {
@@ -98,7 +98,7 @@ func TestEmptyUser(t *testing.T) {
    }
 }
 
-func TestBadUser(t *testing.T) {
+func TestUserDetailsBadUser(t *testing.T) {
    expected := http.StatusNotFound
    status, _ := client.UserDetails(cfg.Endpoint, badUser, goodToken)
    if status != expected {
@@ -106,7 +106,7 @@ func TestBadUser(t *testing.T) {
    }
 }
 
-func TestEmptyToken(t *testing.T) {
+func TestUserDetailsEmptyToken(t *testing.T) {
    expected := http.StatusBadRequest
    status, _ := client.UserDetails(cfg.Endpoint, goodUser, empty)
    if status != expected {
@@ -114,7 +114,7 @@ func TestEmptyToken(t *testing.T) {
    }
 }
 
-func TestBadToken(t *testing.T) {
+func TestUserDetailsBadToken(t *testing.T) {
    expected := http.StatusForbidden
    status, _ := client.UserDetails(cfg.Endpoint, goodUser, badToken)
    if status != expected {
@@ -126,14 +126,14 @@ func emptyField(field string) bool {
    return len(strings.TrimSpace(field)) == 0
 }
 
-func loadConfig() TestConfig {
+func loadConfig() testConfig {
 
    data, err := ioutil.ReadFile("service_test.yml")
    if err != nil {
       log.Fatal(err)
    }
 
-   var c TestConfig
+   var c testConfig
    if err := yaml.Unmarshal(data, &c); err != nil {
       log.Fatal(err)
    }
@@ -144,3 +144,7 @@ func loadConfig() TestConfig {
 
    return c
 }
+
+//
+// end of file
+//

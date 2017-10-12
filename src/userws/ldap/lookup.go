@@ -8,7 +8,7 @@ import (
       "userws/logger"
 )
 
-var Attributes []string = []string {
+var attributes = []string {
    "displayName", 
    "givenName",
    "initials", 
@@ -21,7 +21,10 @@ var Attributes []string = []string {
    "mail",
 }
 
-func LookupUser(endpoint string, timeout int, baseDn string, userId string) (*api.User, error) {
+//
+// LookupUser -- the user lookup handler
+//
+func LookupUser(endpoint string, timeout int, baseDn string, userID string) (*api.User, error) {
 
       start := time.Now()
 
@@ -43,8 +46,8 @@ func LookupUser(endpoint string, timeout int, baseDn string, userId string) (*ap
       search := ldap.NewSearchRequest(
             baseDn,
             ldap.ScopeWholeSubtree, ldap.NeverDerefAliases, 0, 0, false,
-            fmt.Sprintf("(userId=%s)", userId),
-            Attributes,
+            fmt.Sprintf("(userID=%s)", userID),
+         attributes,
             nil)
 
       sr, err := l.Search(search)
@@ -54,24 +57,28 @@ func LookupUser(endpoint string, timeout int, baseDn string, userId string) (*ap
       }
 
       if len(sr.Entries) == 1 {
-            logger.Log(fmt.Sprintf("Lookup %s OK, time %s", userId, time.Since(start)))
+            logger.Log(fmt.Sprintf("Lookup %s OK, time %s", userID, time.Since(start)))
             return &api.User{
-                  UserId:      userId,
-                  DisplayName: sr.Entries[0].GetAttributeValue( Attributes[ 0 ] ),
-                  FirstName:   sr.Entries[0].GetAttributeValue( Attributes[ 1 ] ),
-                  Initials:    sr.Entries[0].GetAttributeValue( Attributes[ 2 ] ),
-                  LastName:    sr.Entries[0].GetAttributeValue( Attributes[ 3 ] ),
-                  Description: sr.Entries[0].GetAttributeValue( Attributes[ 4 ] ),
-                  Department:  sr.Entries[0].GetAttributeValue( Attributes[ 5 ] ),
-                  Title:       sr.Entries[0].GetAttributeValue( Attributes[ 6 ] ),
-                  Office:      sr.Entries[0].GetAttributeValue( Attributes[ 7 ] ),
-                  Phone:       sr.Entries[0].GetAttributeValue( Attributes[ 8 ] ),
-                  Email:       sr.Entries[0].GetAttributeValue( Attributes[ 9 ] ),
+                  UserID:      userID,
+                  DisplayName: sr.Entries[0].GetAttributeValue( attributes[ 0 ] ),
+                  FirstName:   sr.Entries[0].GetAttributeValue( attributes[ 1 ] ),
+                  Initials:    sr.Entries[0].GetAttributeValue( attributes[ 2 ] ),
+                  LastName:    sr.Entries[0].GetAttributeValue( attributes[ 3 ] ),
+                  Description: sr.Entries[0].GetAttributeValue( attributes[ 4 ] ),
+                  Department:  sr.Entries[0].GetAttributeValue( attributes[ 5 ] ),
+                  Title:       sr.Entries[0].GetAttributeValue( attributes[ 6 ] ),
+                  Office:      sr.Entries[0].GetAttributeValue( attributes[ 7 ] ),
+                  Phone:       sr.Entries[0].GetAttributeValue( attributes[ 8 ] ),
+                  Email:       sr.Entries[0].GetAttributeValue( attributes[ 9 ] ),
             }, nil
       }
 
-      logger.Log(fmt.Sprintf("Lookup %s NOT FOUND, time %s", userId, time.Since(start)))
+      logger.Log(fmt.Sprintf("Lookup %s NOT FOUND, time %s", userID, time.Since(start)))
 
       // return empty user if not found
       return nil, nil
 }
+
+//
+// end of file
+//

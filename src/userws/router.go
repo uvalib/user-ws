@@ -1,67 +1,75 @@
 package main
 
 import (
-	"github.com/gorilla/mux"
-	"net/http"
-	"userws/handlers"
+   "github.com/gorilla/mux"
+   "net/http"
+   "userws/handlers"
 )
 
-type Route struct {
-	Name        string
-	Method      string
-	Pattern     string
-	HandlerFunc http.HandlerFunc
+type route struct {
+   Name        string
+   Method      string
+   Pattern     string
+   HandlerFunc http.HandlerFunc
 }
 
-type Routes []Route
+type routeSlice []route
 
-var routes = Routes{
+var routes = routeSlice{
 
-	Route{
-		"UserLookup",
-		"GET",
-		"/user/{userId}",
-		handlers.UserLookup,
-	},
+   route{
+      "UserLookup",
+      "GET",
+      "/user/{userId}",
+      handlers.UserLookup,
+   },
 
-	Route{
-		"HealthCheck",
-		"GET",
-		"/healthcheck",
-		handlers.HealthCheck,
-	},
+   route{
+      "HealthCheck",
+      "GET",
+      "/healthcheck",
+      handlers.HealthCheck,
+   },
 
-	Route{
-		"VersionInfo",
-		"GET",
-		"/version",
-		handlers.VersionInfo,
-	},
+   route{
+      "VersionInfo",
+      "GET",
+      "/version",
+      handlers.VersionInfo,
+   },
 
-	Route{
-		"RuntimeInfo",
-		"GET",
-		"/runtime",
-		handlers.RuntimeInfo,
-	},
+   route{
+      "RuntimeInfo",
+      "GET",
+      "/runtime",
+      handlers.RuntimeInfo,
+   },
 }
 
+//
+// NewRouter -- build and return the router
+//
 func NewRouter() *mux.Router {
 
-	router := mux.NewRouter().StrictSlash(true)
-	for _, route := range routes {
+   router := mux.NewRouter().StrictSlash(true)
+   for _, route := range routes {
 
-		var handler http.Handler
+      var handler http.Handler
 
-		handler = route.HandlerFunc
-		handler = HandlerLogger(handler, route.Name)
+      handler = route.HandlerFunc
+      handler = HandlerLogger(handler, route.Name)
 
-		router.
-			Methods(route.Method).
-			Path(route.Pattern).
-			Name(route.Name).
-			Handler(handler)
-	}
+      router.
+         Methods(route.Method).
+         Path(route.Pattern).
+         Name(route.Name).
+         Handler(handler)
+   }
 
-	return router
+   return router
 }
+
+//
+// end of file
+//
+

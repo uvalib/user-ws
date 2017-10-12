@@ -17,3 +17,7 @@ func main() {
 	router := NewRouter()
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", config.Configuration.Port), router))
 }
+
+//
+// end of file
+//

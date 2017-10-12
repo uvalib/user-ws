@@ -6,10 +6,12 @@ import (
 	"userws/logger"
 )
 
+//
+// Config -- our configuration structure
 type Config struct {
 	ServiceName       string
 	Port              string
-	EndpointUrl       string
+	EndpointURL       string
 	Timeout           int
 	LdapBaseDn        string
 	HealthCheckUser   string
@@ -17,15 +19,18 @@ type Config struct {
 	Debug             bool
 }
 
-var Configuration = LoadConfig()
+//
+// Configuration -- our configuration instance
+//
+var Configuration = loadConfig()
 
-func LoadConfig() Config {
+func loadConfig() Config {
 
 	c := Config{}
 
 	// process command line flags and setup configuration
 	flag.StringVar(&c.Port, "port", "8080", "The service listen port")
-	flag.StringVar(&c.EndpointUrl, "url", "ldap.virginia.edu:389", "The ldap hostname:port")
+	flag.StringVar(&c.EndpointURL, "url", "ldap.virginia.edu:389", "The ldap hostname:port")
 	flag.IntVar(&c.Timeout, "timeout", 15, "The external service timeout in seconds")
 	flag.StringVar(&c.LdapBaseDn, "basedn", "o=University of Virginia,c=US", "The ldap base DN")
 	flag.StringVar(&c.HealthCheckUser, "hcuser", "dpg3k", "The search name used for the health check")
@@ -35,7 +40,7 @@ func LoadConfig() Config {
 	flag.Parse()
 
 	logger.Log(fmt.Sprintf("Port:                %s", c.Port))
-	logger.Log(fmt.Sprintf("Endpoint:            %s", c.EndpointUrl))
+	logger.Log(fmt.Sprintf("Endpoint:            %s", c.EndpointURL))
 	logger.Log(fmt.Sprintf("Timeout:             %d", c.Timeout))
 	logger.Log(fmt.Sprintf("DN:                  %s", c.LdapBaseDn))
 	logger.Log(fmt.Sprintf("Health check user:   %s", c.HealthCheckUser))
@@ -44,3 +49,7 @@ func LoadConfig() Config {
 
 	return c
 }
+
+//
+// end of file
+//
