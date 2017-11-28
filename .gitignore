@@ -2,6 +2,6 @@
 /src/github.com
 /bin
 /pkg
-/src/userws/service_test.yml
+/src/userws/tests/service_test.yml
 /env.*
 /buildtag.build-0

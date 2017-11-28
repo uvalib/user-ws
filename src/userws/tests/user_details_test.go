@@ -1,68 +1,10 @@
-package main
+package tests
 
 import (
-   "io/ioutil"
-   "log"
    "net/http"
-   "strings"
    "testing"
    "userws/client"
-   "gopkg.in/yaml.v2"
 )
-
-type testConfig struct {
-   TestUser string
-   Endpoint string
-   Token    string
-}
-
-var cfg = loadConfig()
-
-var goodUser = cfg.TestUser
-var badUser = "xxyyzz"
-var goodToken = cfg.Token
-var badToken = "badness"
-var empty = " "
-
-func TestHealthCheck(t *testing.T) {
-   expected := http.StatusOK
-   status := client.HealthCheck(cfg.Endpoint)
-   if status != expected {
-      t.Fatalf("Expected %v, got %v\n", expected, status)
-   }
-}
-
-func TestVersionCheck(t *testing.T) {
-   expected := http.StatusOK
-   status, version := client.VersionCheck(cfg.Endpoint)
-   if status != expected {
-      t.Fatalf("Expected %v, got %v\n", expected, status)
-   }
-
-   if len(version) == 0 {
-      t.Fatalf("Expected non-zero length version string\n")
-   }
-}
-
-func TestRuntimeCheck(t *testing.T) {
-   expected := http.StatusOK
-   status, runtime := client.RuntimeCheck(cfg.Endpoint)
-   if status != expected {
-      t.Fatalf("Expected %v, got %v\n", expected, status)
-   }
-
-   if runtime == nil {
-      t.Fatalf("Expected non-nil runtime info\n")
-   }
-
-   if len( runtime.Version ) == 0 ||
-      runtime.AllocatedMemory == 0 ||
-      runtime.CPUCount == 0 ||
-      runtime.GoRoutineCount == 0 ||
-      runtime.ObjectCount == 0 {
-      t.Fatalf("Expected non-zero value in runtime info but one is zero\n")
-   }
-}
 
 func TestUserDetailsHappyDay(t *testing.T) {
    expected := http.StatusOK
@@ -120,29 +62,6 @@ func TestUserDetailsBadToken(t *testing.T) {
    if status != expected {
       t.Fatalf("Expected %v, got %v\n", expected, status)
    }
-}
-
-func emptyField(field string) bool {
-   return len(strings.TrimSpace(field)) == 0
-}
-
-func loadConfig() testConfig {
-
-   data, err := ioutil.ReadFile("service_test.yml")
-   if err != nil {
-      log.Fatal(err)
-   }
-
-   var c testConfig
-   if err := yaml.Unmarshal(data, &c); err != nil {
-      log.Fatal(err)
-   }
-
-   log.Printf("testuser [%s]\n", c.TestUser)
-   log.Printf("endpoint [%s]\n", c.Endpoint)
-   log.Printf("token    [%s]\n", c.Token)
-
-   return c
 }
 
 //
