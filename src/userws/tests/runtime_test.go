@@ -1,9 +1,9 @@
 package tests
 
 import (
-	"userws/client"
 	"net/http"
 	"testing"
+	"userws/client"
 )
 
 //
