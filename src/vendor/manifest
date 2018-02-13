@@ -117,7 +117,7 @@
 			"vcs": "git",
 			"revision": "89604d197083d4781071d3c65855d24ecfb0a563",
 			"branch": "master",
-			"path": "expfmt",
+			"path": "/expfmt",
 			"notests": true
 		},
 		{
@@ -135,7 +135,7 @@
 			"vcs": "git",
 			"revision": "89604d197083d4781071d3c65855d24ecfb0a563",
 			"branch": "master",
-			"path": "/model",
+			"path": "model",
 			"notests": true
 		},
 		{
