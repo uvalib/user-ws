@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-	_ "expvar"
 	"net/http"
 	"userws/config"
 	"userws/handlers"
