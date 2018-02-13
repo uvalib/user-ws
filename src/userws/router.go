@@ -54,6 +54,10 @@ var routes = routeSlice{
 func NewRouter() *mux.Router {
 
 	router := mux.NewRouter().StrictSlash(true)
+
+	// add the route for the prometheus metrics
+	router.Handle("/metrics", HandlerLogger( promhttp.Handler( ), "promhttp.Handler" ) )
+
 	for _, route := range routes {
 
 		var handler http.Handler = route.HandlerFunc
@@ -67,8 +71,6 @@ func NewRouter() *mux.Router {
 			Handler(handler)
 	}
 
-	// add the route for the prometheus metrics
-	router.Handle("/metrics", HandlerLogger( promhttp.Handler( ), "promhttp.Handler" ) )
 	return router
 }
 
