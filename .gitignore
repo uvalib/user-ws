@@ -1,5 +1,6 @@
 /.idea
 /src/github.com
+/src/golang.org
 /bin
 /pkg
 /src/userws/tests/service_test.yml
