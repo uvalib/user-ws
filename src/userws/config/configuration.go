@@ -10,7 +10,7 @@ import (
 // Config -- our configuration structure
 type Config struct {
 	ServiceName       string
-	Port              string
+	ServicePort       string
 	EndpointURL       string
 	Timeout           int
 	LdapBaseDn        string
@@ -29,7 +29,7 @@ func loadConfig() Config {
 	c := Config{}
 
 	// process command line flags and setup configuration
-	flag.StringVar(&c.Port, "port", "8080", "The service listen port")
+	flag.StringVar(&c.ServicePort, "port", "8080", "The service listen port")
 	flag.StringVar(&c.EndpointURL, "url", "ldap.virginia.edu:389", "The ldap hostname:port")
 	flag.IntVar(&c.Timeout, "timeout", 15, "The external service timeout in seconds")
 	flag.StringVar(&c.LdapBaseDn, "basedn", "o=University of Virginia,c=US", "The ldap base DN")
@@ -39,7 +39,7 @@ func loadConfig() Config {
 
 	flag.Parse()
 
-	logger.Log(fmt.Sprintf("Port:                %s", c.Port))
+	logger.Log(fmt.Sprintf("ServicePort:         %s", c.ServicePort))
 	logger.Log(fmt.Sprintf("Endpoint:            %s", c.EndpointURL))
 	logger.Log(fmt.Sprintf("Timeout:             %d", c.Timeout))
 	logger.Log(fmt.Sprintf("DN:                  %s", c.LdapBaseDn))

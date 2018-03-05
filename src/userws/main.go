@@ -7,15 +7,23 @@ import (
 	"userws/config"
 	"userws/handlers"
 	"userws/logger"
+	"time"
 )
 
 func main() {
 
 	logger.Log(fmt.Sprintf("===> version: '%s' <===", handlers.Version()))
 
-	// setup router and serve...
+	// setup router and server...
+	serviceTimeout := 15 * time.Second
 	router := NewRouter()
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", config.Configuration.Port), router))
+	server := &http.Server{
+		Addr:         fmt.Sprintf(":%s", config.Configuration.ServicePort),
+		Handler:      router,
+		ReadTimeout:  serviceTimeout,
+		WriteTimeout: serviceTimeout,
+	}
+	log.Fatal(server.ListenAndServe())
 }
 
 //
