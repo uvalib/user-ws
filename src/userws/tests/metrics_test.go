@@ -2,9 +2,9 @@ package tests
 
 import (
 	"net/http"
+	"strings"
 	"testing"
 	"userws/client"
-	"strings"
 )
 
 //
@@ -18,11 +18,11 @@ func TestMetricsCheck(t *testing.T) {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
 
-	if len( metrics ) == 0 {
+	if len(metrics) == 0 {
 		t.Fatalf("Expected non-empty metrics info\n")
 	}
 
-	if strings.Contains( metrics, "go_info") == false {
+	if strings.Contains(metrics, "go_info") == false {
 		t.Fatalf("Expected go_info value in metrics info\n")
 	}
 }
