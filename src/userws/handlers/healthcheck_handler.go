@@ -15,7 +15,7 @@ func HealthCheck(w http.ResponseWriter, r *http.Request) {
 	message := ""
 
 	user, err := ldap.LookupUser(config.Configuration.EndpointURL,
-		config.Configuration.Timeout,
+		config.Configuration.ServiceTimeout,
 		config.Configuration.LdapBaseDn,
 		config.Configuration.HealthCheckUser)
 	if err != nil {

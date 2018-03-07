@@ -23,14 +23,14 @@ func UserLookup(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// validate the token
-	if authtoken.Validate(config.Configuration.AuthTokenEndpoint, token, config.Configuration.Timeout) == false {
+	if authtoken.Validate(config.Configuration.AuthTokenEndpoint, token, config.Configuration.ServiceTimeout) == false {
 		encodeStandardResponse(w, http.StatusForbidden, nil)
 		return
 	}
 
 	// do the lookup
 	user, err := ldap.LookupUser(config.Configuration.EndpointURL,
-		config.Configuration.Timeout,
+		config.Configuration.ServiceTimeout,
 		config.Configuration.LdapBaseDn,
 		userID)
 
