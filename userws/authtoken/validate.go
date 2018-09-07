@@ -3,11 +3,11 @@ package authtoken
 import (
 	"fmt"
 	"github.com/parnurzeal/gorequest"
+	"github.com/uvalib/user-ws/userws/logger"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"time"
-	"userws/logger"
 )
 
 //

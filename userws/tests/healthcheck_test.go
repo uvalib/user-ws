@@ -1,9 +1,9 @@
 package tests
 
 import (
+	"github.com/uvalib/user-ws/userws/client"
 	"net/http"
 	"testing"
-	"userws/client"
 )
 
 //

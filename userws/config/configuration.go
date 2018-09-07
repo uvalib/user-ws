@@ -3,7 +3,7 @@ package config
 import (
 	"flag"
 	"fmt"
-	"userws/logger"
+	"github.com/uvalib/user-ws/userws/logger"
 )
 
 //

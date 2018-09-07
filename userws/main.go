@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
+	"github.com/uvalib/user-ws/userws/config"
+	"github.com/uvalib/user-ws/userws/handlers"
+	"github.com/uvalib/user-ws/userws/logger"
 	"log"
 	"net/http"
-	"userws/config"
-	"userws/handlers"
-	"userws/logger"
 	"time"
 )
 

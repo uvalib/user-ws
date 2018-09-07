@@ -2,10 +2,10 @@ package handlers
 
 import (
 	"encoding/json"
+	"github.com/uvalib/user-ws/userws/api"
 	"log"
 	"net/http"
 	"strings"
-	"userws/api"
 )
 
 func encodeStandardResponse(w http.ResponseWriter, status int, user *api.User) {

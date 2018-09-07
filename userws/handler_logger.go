@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
+	"github.com/uvalib/user-ws/userws/logger"
 	"net/http"
 	"time"
-	"userws/logger"
 )
 
 //

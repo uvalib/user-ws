@@ -1,10 +1,10 @@
 package tests
 
 import (
+	"github.com/uvalib/user-ws/userws/client"
 	"net/http"
 	"strings"
 	"testing"
-	"userws/client"
 )
 
 //
@@ -22,8 +22,8 @@ func TestMetricsCheck(t *testing.T) {
 		t.Fatalf("Expected non-empty metrics info\n")
 	}
 
-	if strings.Contains(metrics, "go_info") == false {
-		t.Fatalf("Expected go_info value in metrics info\n")
+	if strings.Contains(metrics, "go_goroutines") == false {
+		t.Fatalf("Expected go_goroutines value in metrics info\n")
 	}
 }
 

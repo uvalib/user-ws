@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/parnurzeal/gorequest"
+	"github.com/uvalib/user-ws/userws/api"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"time"
-	"userws/api"
 )
 
 var debugHTTP = false

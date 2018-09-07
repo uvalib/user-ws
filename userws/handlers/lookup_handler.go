@@ -2,10 +2,10 @@ package handlers
 
 import (
 	"github.com/gorilla/mux"
+	"github.com/uvalib/user-ws/userws/authtoken"
+	"github.com/uvalib/user-ws/userws/config"
+	"github.com/uvalib/user-ws/userws/ldap"
 	"net/http"
-	"userws/authtoken"
-	"userws/config"
-	"userws/ldap"
 )
 
 //

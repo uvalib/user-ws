@@ -1,11 +1,11 @@
 package handlers
 
 import (
-	"net/http"
-	"userws/config"
-	"userws/ldap"
-	"userws/logger"
 	"fmt"
+	"github.com/uvalib/user-ws/userws/config"
+	"github.com/uvalib/user-ws/userws/ldap"
+	"github.com/uvalib/user-ws/userws/logger"
+	"net/http"
 )
 
 //
@@ -23,10 +23,10 @@ func HealthCheck(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		healthy = false
 		message = err.Error()
-		logger.Log(fmt.Sprintf( "ERROR: LDAP lookup reports '%s'", message ) )
+		logger.Log(fmt.Sprintf("ERROR: LDAP lookup reports '%s'", message))
 	} else if user == nil {
 		healthy = false
-		logger.Log(fmt.Sprintf( "ERROR: LDAP lookup cannot find '%s'", config.Configuration.HealthCheckUser ) )
+		logger.Log(fmt.Sprintf("ERROR: LDAP lookup cannot find '%s'", config.Configuration.HealthCheckUser))
 	}
 
 	encodeHealthCheckResponse(w, healthy, message)

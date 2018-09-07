@@ -3,9 +3,9 @@ package ldap
 import (
 	"fmt"
 	"github.com/nmcclain/ldap"
+	"github.com/uvalib/user-ws/userws/api"
+	"github.com/uvalib/user-ws/userws/logger"
 	"time"
-	"userws/api"
-	"userws/logger"
 )
 
 var attributes = []string{
