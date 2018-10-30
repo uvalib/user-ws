@@ -24,27 +24,28 @@ var attributes = []string{
 //
 // LookupUser -- the user lookup handler
 //
-func LookupUser(endpoint string, timeout int, baseDn string, userID string) (*api.User, error) {
+func LookupUser( ldapEndpoint string, timeout int, ldapBindAccount string, ldapBindPasswd string, ldapBaseDn string, userID string) (*api.User, error) {
 
 	start := time.Now()
 
-	l, err := ldap.DialTimeout("tcp", endpoint, time.Second*time.Duration(timeout))
+	l, err := ldap.DialTimeout("tcp", ldapEndpoint, time.Second*time.Duration(timeout))
 	if err != nil {
 		logger.Log(fmt.Sprintf("ERROR: %s\n", err.Error()))
 		return nil, err
 	}
 
 	defer l.Close()
+
 	// l.Debug = true
 
-	//err = l.Bind(user, passwd)
+	//err = l.Bind( ldapBindAccount,  ldapBindPasswd)
 	//if err != nil {
 	//   logger.Log( fmt.Sprintf("ERROR: Cannot bind: %s\n", err.Error() ) )
 	//   return
 	//}
 
 	search := ldap.NewSearchRequest(
-		baseDn,
+		ldapBaseDn,
 		ldap.ScopeWholeSubtree, ldap.NeverDerefAliases, 0, 0, false,
 		fmt.Sprintf("(userID=%s)", userID),
 		attributes,

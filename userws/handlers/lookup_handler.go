@@ -29,10 +29,13 @@ func UserLookup(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// do the lookup
-	user, err := ldap.LookupUser(config.Configuration.EndpointURL,
+	user, err := ldap.LookupUser(
+		config.Configuration.LdapEndpoint,
 		config.Configuration.ServiceTimeout,
+		config.Configuration.LdapBindAccount,
+		config.Configuration.LdapBindPassword,
 		config.Configuration.LdapBaseDn,
-		userID)
+		userID )
 
 	// lookup error?
 	if err != nil {
