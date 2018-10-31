@@ -36,13 +36,14 @@ func LookupUser( ldapEndpoint string, timeout int, ldapBindAccount string, ldapB
 
 	defer l.Close()
 
-	// l.Debug = true
-
-	//err = l.Bind( ldapBindAccount,  ldapBindPasswd)
-	//if err != nil {
-	//   logger.Log( fmt.Sprintf("ERROR: Cannot bind: %s\n", err.Error() ) )
-	//   return
-	//}
+    // if we have credentials then attempt to use them
+	if len( ldapBindAccount ) != 0 && len( ldapBindPasswd ) != 0 {
+		err = l.Bind(ldapBindAccount, ldapBindPasswd)
+		if err != nil {
+			logger.Log(fmt.Sprintf("ERROR: Cannot bind: %s\n", err.Error()))
+			return nil, err
+		}
+	}
 
 	search := ldap.NewSearchRequest(
 		ldapBaseDn,
