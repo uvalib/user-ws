@@ -46,7 +46,9 @@ func loadConfig() Config {
 
 	// handle special cases here
 	c.LdapBindAccount = strings.Replace( c.LdapBindAccount, "%20", " ", -1 )
+	c.LdapBindAccount = strings.Replace( c.LdapBindAccount, "%3D", "=", -1 )
 	c.LdapBaseDn = strings.Replace( c.LdapBaseDn, "%20", " ", -1 )
+	c.LdapBaseDn = strings.Replace( c.LdapBaseDn, "%3D", "=", -1 )
 
 	logger.Log(fmt.Sprintf("ServicePort:         %s", c.ServicePort))
 	logger.Log(fmt.Sprintf("ServiceTimeout:      %d", c.ServiceTimeout))
