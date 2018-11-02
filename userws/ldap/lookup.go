@@ -1,8 +1,10 @@
 package ldap
 
 import (
+	"crypto/tls"
 	"fmt"
 	"github.com/nmcclain/ldap"
+	"github.com/uvalib/user-ws/userws/config"
 	"github.com/uvalib/user-ws/userws/api"
 	"github.com/uvalib/user-ws/userws/logger"
 	"time"
@@ -22,23 +24,42 @@ var attributes = []string{
 }
 
 //
+// openConnection -- open the connection to the LDAP server
+//
+func openConnection( ) ( *ldap.Conn, error ){
+
+	// are we using TLS for our connection
+	if config.Configuration.LdapUseTls == true {
+		tlsConf := &tls.Config{
+			InsecureSkipVerify: config.Configuration.LdapSkipTlsVerify,
+		}
+		connection, err := ldap.DialTLS("tcp", config.Configuration.LdapEndpoint, tlsConf )
+		return connection, err
+	} else {
+		connection, err := ldap.DialTimeout("tcp", config.Configuration.LdapEndpoint,
+			time.Second * time.Duration( config.Configuration.ServiceTimeout ))
+		return connection, err
+	}
+}
+
+//
 // LookupUser -- the user lookup handler
 //
-func LookupUser( ldapEndpoint string, timeout int, ldapBindAccount string, ldapBindPasswd string, ldapBaseDn string, userID string) (*api.User, error) {
+func LookupUser( userID string) (*api.User, error) {
 
 	start := time.Now()
 
-	l, err := ldap.DialTimeout("tcp", ldapEndpoint, time.Second*time.Duration(timeout))
+	connection, err := openConnection( )
 	if err != nil {
 		logger.Log(fmt.Sprintf("ERROR: %s\n", err.Error()))
 		return nil, err
 	}
 
-	defer l.Close()
+	defer connection.Close()
 
     // if we have credentials then attempt to use them
-	if len( ldapBindAccount ) != 0 && len( ldapBindPasswd ) != 0 {
-		err = l.Bind(ldapBindAccount, ldapBindPasswd)
+	if len( config.Configuration.LdapBindAccount ) != 0 && len( config.Configuration.LdapBindPassword ) != 0 {
+		err := connection.Bind( config.Configuration.LdapBindAccount, config.Configuration.LdapBindPassword )
 		if err != nil {
 			logger.Log(fmt.Sprintf("ERROR: Cannot bind: %s\n", err.Error()))
 			return nil, err
@@ -46,13 +67,13 @@ func LookupUser( ldapEndpoint string, timeout int, ldapBindAccount string, ldapB
 	}
 
 	search := ldap.NewSearchRequest(
-		ldapBaseDn,
+		config.Configuration.LdapBaseDn,
 		ldap.ScopeWholeSubtree, ldap.NeverDerefAliases, 0, 0, false,
 		fmt.Sprintf("(userID=%s)", userID),
 		attributes,
 		nil)
 
-	sr, err := l.Search(search)
+	sr, err := connection.Search(search)
 	if err != nil {
 		logger.Log(fmt.Sprintf("ERROR: %s\n", err.Error()))
 		return nil, err

@@ -17,6 +17,8 @@ type Config struct {
 	LdapBindAccount   string
 	LdapBindPassword  string
 	LdapBaseDn        string
+	LdapUseTls        bool
+	LdapSkipTlsVerify bool
 	HealthCheckUser   string
 	AuthTokenEndpoint string
 	Debug             bool
@@ -38,6 +40,8 @@ func loadConfig() Config {
 	flag.StringVar(&c.LdapBindAccount, "ldapbindacct", "", "The ldap bind account name")
 	flag.StringVar(&c.LdapBindPassword, "ldapbindpwd", "", "The ldap bind password")
 	flag.StringVar(&c.LdapBaseDn, "ldapbasedn", "o=University of Virginia,c=US", "The ldap base DN")
+	flag.BoolVar(&c.LdapUseTls, "ldaptls", false, "Use ldap TLS")
+	flag.BoolVar(&c.LdapSkipTlsVerify, "tlsskipverify", false, "Skip TLS certificate verification")
 	flag.StringVar(&c.HealthCheckUser, "hcuser", "dpg3k", "The search name used for the health check")
 	flag.StringVar(&c.AuthTokenEndpoint, "tokenauth", "http://docker1.lib.virginia.edu:8200", "The token authentication endpoint")
 	flag.BoolVar(&c.Debug, "debug", false, "Enable debugging")
@@ -56,6 +60,8 @@ func loadConfig() Config {
 	logger.Log(fmt.Sprintf("LdapBindAccount:     %s", c.LdapBindAccount))
 	logger.Log(fmt.Sprintf("LdapBindPassword:    %s", strings.Repeat("*", len(c.LdapBindPassword))))
 	logger.Log(fmt.Sprintf("LdapBaseDn:          %s", c.LdapBaseDn))
+	logger.Log(fmt.Sprintf("LdapUseTls:          %t", c.LdapUseTls))
+	logger.Log(fmt.Sprintf("LdapSkipTlsVerify:   %t", c.LdapSkipTlsVerify))
 	logger.Log(fmt.Sprintf("Health check user:   %s", c.HealthCheckUser))
 	logger.Log(fmt.Sprintf("Token auth endpoint: %s", c.AuthTokenEndpoint))
 	logger.Log(fmt.Sprintf("Debug                %t", c.Debug))
