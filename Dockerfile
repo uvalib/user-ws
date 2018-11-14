@@ -4,7 +4,7 @@ FROM alpine:3.8
 RUN apk update && apk upgrade && apk add bash tzdata && rm -fr /var/cache/apk/*
 
 # Create the run user and group
-RUN addgroup webservice && adduser webservice -G webservice -D
+RUN addgroup --gid 18570 sse && adduser --uid 1984 docker -G sse -D
 
 # set the timezone appropriatly
 ENV TZ=UTC
@@ -16,10 +16,10 @@ WORKDIR $APP_HOME
 
 # Create necessary directories
 RUN mkdir -p $APP_HOME/scripts $APP_HOME/bin $APP_HOME/assets
-RUN chown -R webservice $APP_HOME && chgrp -R webservice $APP_HOME
+RUN chown -R docker $APP_HOME && chgrp -R sse $APP_HOME
 
 # Specify the user
-USER webservice
+USER docker
 
 # port and run command
 EXPOSE 8080
@@ -27,7 +27,7 @@ CMD scripts/entry.sh
 
 # Move in necessary assets
 COPY scripts/entry.sh $APP_HOME/scripts/entry.sh
-COPY data/container_bash_profile /home/webservice/.profile
+COPY data/container_bash_profile /home/docker/.profile
 COPY bin/user-ws.linux $APP_HOME/bin/user-ws
 COPY assets/* $APP_HOME/assets/
 
