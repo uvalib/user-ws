@@ -1,7 +1,7 @@
 FROM alpine:3.8
 
 # update the packages
-RUN apk update && apk upgrade && apk add bash tzdata && rm -fr /var/cache/apk/*
+RUN apk update && apk upgrade && apk add bash tzdata ca-certificates && rm -fr /var/cache/apk/*
 
 # Create the run user and group
 RUN addgroup --gid 18570 sse && adduser --uid 1984 docker -G sse -D
