@@ -21,6 +21,7 @@ var attributes = []string{
 	"physicalDeliveryOfficeName",
 	"telephoneNumber",
 	"mail",
+	"uvRestrict",
 }
 
 //
@@ -81,6 +82,8 @@ func LookupUser( userID string) (*api.User, error) {
 
 	if len(sr.Entries) == 1 {
 		logger.Log(fmt.Sprintf("Lookup %s OK, time %s", userID, time.Since(start)))
+		//logger.Log(fmt.Sprintf( "RES: %#v", sr.Entries[0].Attributes ))
+		//sr.PrettyPrint(0)
 		return &api.User{
 			UserID:      userID,
 			DisplayName: sr.Entries[0].GetAttributeValue(attributes[0]),
@@ -93,6 +96,7 @@ func LookupUser( userID string) (*api.User, error) {
 			Office:      sr.Entries[0].GetAttributeValue(attributes[7]),
 			Phone:       sr.Entries[0].GetAttributeValue(attributes[8]),
 			Email:       sr.Entries[0].GetAttributeValue(attributes[9]),
+			Private:     "false", // sr.Entries[0].GetAttributeValue(attributes[10]),
 		}, nil
 	}
 

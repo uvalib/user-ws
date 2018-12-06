@@ -15,6 +15,7 @@ type User struct {
 	Office      string `json:"office,omitempty"`
 	Phone       string `json:"phone,omitempty"`
 	Email       string `json:"email,omitempty"`
+	Private     string `json:"private,omitempty"`
 }
 
 //

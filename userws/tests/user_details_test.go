@@ -27,7 +27,8 @@ func TestUserDetailsHappyDay(t *testing.T) {
 		emptyField(user.Title) ||
 		emptyField(user.Office) ||
 		emptyField(user.Phone) ||
-		emptyField(user.Email) {
+		emptyField(user.Email) ||
+		emptyField(user.Private) {
 		t.Fatalf("Expected non-empty field but one is empty\n")
 	}
 }
