@@ -7,6 +7,7 @@ import (
 	"github.com/uvalib/user-ws/userws/config"
 	"github.com/uvalib/user-ws/userws/api"
 	"github.com/uvalib/user-ws/userws/logger"
+	"regexp"
 	"time"
 )
 
@@ -96,11 +97,11 @@ func LookupUser( userID string) (*api.User, error) {
 			FirstName:   sr.Entries[0].GetAttributeValue(attributes[1]),
 			Initials:    sr.Entries[0].GetAttributeValue(attributes[2]),
 			LastName:    sr.Entries[0].GetAttributeValue(attributes[3]),
-			Description: sr.Entries[0].GetAttributeValue(attributes[4]),
-			Department:  sr.Entries[0].GetAttributeValue(attributes[5]),
-			Title:       sr.Entries[0].GetAttributeValue(attributes[6]),
-			Office:      sr.Entries[0].GetAttributeValue(attributes[7]),
-			Phone:       sr.Entries[0].GetAttributeValue(attributes[8]),
+			Description: stripLDAPPrefix( sr.Entries[0].GetAttributeValue(attributes[4])),
+			Department:  stripLDAPPrefix( sr.Entries[0].GetAttributeValue(attributes[5])),
+			Title:       stripLDAPPrefix( sr.Entries[0].GetAttributeValue(attributes[6])),
+			Office:      stripLDAPPrefix( sr.Entries[0].GetAttributeValue(attributes[7])),
+			Phone:       stripLDAPPrefix( sr.Entries[0].GetAttributeValue(attributes[8])),
 			Email:       sr.Entries[0].GetAttributeValue(attributes[9]),
 			Private:     private,
 		}, nil
@@ -112,6 +113,14 @@ func LookupUser( userID string) (*api.User, error) {
 	return nil, nil
 }
 
+//
+// stripLDAPPrefix -- Strip the prefix that * might * appear at the start of the field
+//
+func stripLDAPPrefix( field string ) string {
+
+	r := regexp.MustCompile("^[EUSW]\\d:")
+	return r.ReplaceAllString( field, "" )
+}
 //
 // end of file
 //
