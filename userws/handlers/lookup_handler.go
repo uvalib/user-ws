@@ -29,7 +29,7 @@ func UserLookup(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// do the lookup
-	user, err := ldap.LookupUser( userID )
+	user, err := ldap.LookupUser(userID)
 	if err != nil {
 		encodeStandardResponse(w, http.StatusInternalServerError, nil)
 		return

@@ -21,6 +21,16 @@ var goodToken = cfg.Token
 var badToken = "badness"
 var empty = " "
 
+func emptyFields(fields []string) bool {
+
+	for _, field := range fields {
+		if emptyField(field) == true {
+			return true
+		}
+	}
+	return false
+}
+
 func emptyField(field string) bool {
 	return len(strings.TrimSpace(field)) == 0
 }

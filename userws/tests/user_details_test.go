@@ -22,11 +22,11 @@ func TestUserDetailsHappyDay(t *testing.T) {
 		emptyField(user.FirstName) ||
 		emptyField(user.Initials) ||
 		emptyField(user.LastName) ||
-		emptyField(user.Description) ||
-		emptyField(user.Department) ||
-		emptyField(user.Title) ||
-		emptyField(user.Office) ||
-		emptyField(user.Phone) ||
+		emptyFields(user.Description) ||
+		emptyFields(user.Department) ||
+		emptyFields(user.Title) ||
+		emptyFields(user.Office) ||
+		emptyFields(user.Phone) ||
 		emptyField(user.Email) ||
 		emptyField(user.Private) {
 		t.Fatalf("Expected non-empty field but one is empty\n")
