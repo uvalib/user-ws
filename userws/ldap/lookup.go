@@ -8,7 +8,7 @@ import (
 	"github.com/uvalib/user-ws/userws/config"
 	"github.com/uvalib/user-ws/userws/logger"
 	"regexp"
-	"strconv"
+	"sort"
 	"time"
 )
 
@@ -125,22 +125,12 @@ func makeOrderedField(fields []string) []string {
 	mf := make([]string, len(fields))
 	rx := regexp.MustCompile("^[EUSW]\\d:")
 
+	// if these are to be ordered, they are tagged in a lexically appropriate manner
+	sort.Strings(fields)
+
+	// remove the ordering tags
 	for f_index, field := range fields {
-
-		match, err := regexp.MatchString("^[EUSW]\\d:", field)
-		if err == nil {
-
-			// if we match then we process as a set of ordered fields
-			if match == true {
-
-				ix, err := strconv.Atoi(string(field[1]))
-				if err == nil {
-					mf[ix] = rx.ReplaceAllString(field, "")
-				}
-			} else {
-				mf[f_index] = field
-			}
-		}
+		mf[f_index] = rx.ReplaceAllString(field, "")
 	}
 
 	return mf
