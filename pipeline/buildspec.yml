@@ -33,6 +33,9 @@ phases:
 #  post_build:
 #    commands:
 
+artifacts:
+  name: build-$BUILD_VERSION
+
 #
 # end of file
 #
