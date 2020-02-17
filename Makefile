@@ -47,8 +47,9 @@ run:
 	$(RUNNER)
 
 deps:
-	$(GOGET) -u
+	cd $(SRC_TREE); $(GOGET) -u
 	$(GOMOD) tidy
+	$(GOMOD) verify
 
 #
 # end of file

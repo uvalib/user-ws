@@ -20,7 +20,7 @@ type Config struct {
 	LdapUseTls        bool
 	LdapSkipTlsVerify bool
 	HealthCheckUser   string
-	AuthTokenEndpoint string
+	SharedSecret      string
 	Debug             bool
 }
 
@@ -43,7 +43,7 @@ func loadConfig() Config {
 	flag.BoolVar(&c.LdapUseTls, "ldaptls", false, "Use ldap TLS")
 	flag.BoolVar(&c.LdapSkipTlsVerify, "tlsskipverify", false, "Skip TLS certificate verification")
 	flag.StringVar(&c.HealthCheckUser, "hcuser", "dpg3k", "The search name used for the health check")
-	flag.StringVar(&c.AuthTokenEndpoint, "tokenauth", "http://docker1.lib.virginia.edu:8200", "The token authentication endpoint")
+	flag.StringVar(&c.SharedSecret, "secret", "", "The JWT shared secret")
 	flag.BoolVar(&c.Debug, "debug", false, "Enable debugging")
 
 	flag.Parse()
@@ -63,7 +63,7 @@ func loadConfig() Config {
 	logger.Log(fmt.Sprintf("LdapUseTls:          %t", c.LdapUseTls))
 	logger.Log(fmt.Sprintf("LdapSkipTlsVerify:   %t", c.LdapSkipTlsVerify))
 	logger.Log(fmt.Sprintf("Health check user:   %s", c.HealthCheckUser))
-	logger.Log(fmt.Sprintf("Token auth endpoint: %s", c.AuthTokenEndpoint))
+	logger.Log(fmt.Sprintf("SharedSecret:        %s", c.SharedSecret))
 	logger.Log(fmt.Sprintf("Debug                %t", c.Debug))
 
 	return c

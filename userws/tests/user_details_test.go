@@ -8,7 +8,7 @@ import (
 
 func TestUserDetailsHappyDay(t *testing.T) {
 	expected := http.StatusOK
-	status, user := client.UserDetails(cfg.Endpoint, goodUser, goodToken)
+	status, user := client.UserDetails(cfg.Endpoint, goodUser, goodToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
@@ -35,7 +35,7 @@ func TestUserDetailsHappyDay(t *testing.T) {
 
 func TestUserDetailsEmptyUser(t *testing.T) {
 	expected := http.StatusBadRequest
-	status, _ := client.UserDetails(cfg.Endpoint, empty, goodToken)
+	status, _ := client.UserDetails(cfg.Endpoint, empty, goodToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
@@ -43,7 +43,7 @@ func TestUserDetailsEmptyUser(t *testing.T) {
 
 func TestUserDetailsBadUser(t *testing.T) {
 	expected := http.StatusNotFound
-	status, _ := client.UserDetails(cfg.Endpoint, badUser, goodToken)
+	status, _ := client.UserDetails(cfg.Endpoint, badUser, goodToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
@@ -59,7 +59,7 @@ func TestUserDetailsEmptyToken(t *testing.T) {
 
 func TestUserDetailsBadToken(t *testing.T) {
 	expected := http.StatusForbidden
-	status, _ := client.UserDetails(cfg.Endpoint, goodUser, badToken)
+	status, _ := client.UserDetails(cfg.Endpoint, goodUser, badToken(cfg.Secret))
 	if status != expected {
 		t.Fatalf("Expected %v, got %v\n", expected, status)
 	}
