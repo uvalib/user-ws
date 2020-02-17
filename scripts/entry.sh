@@ -46,8 +46,8 @@ if [ -n "$SERVICE_TIMEOUT" ]; then
 fi
 
 # shared secret
-if [ -n "$SHARED_SECRET" ]; then
-   SECRET_OPT="--secret $SHARED_SECRET"
+if [ -n "$AUTH_SHARED_SECRET" ]; then
+   SECRET_OPT="--secret $AUTH_SHARED_SECRET"
 fi
 
 # healthcheck username
