@@ -8,7 +8,7 @@ import (
 )
 
 //
-// Validate -- called to validate the supplied token using the auth token service
+// Validate -- called to validate the supplied token
 //
 func Validate(sharedSecret string, token string) bool {
 
