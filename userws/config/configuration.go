@@ -64,7 +64,7 @@ func loadConfig() Config {
 	logger.Log(fmt.Sprintf("LdapSkipTlsVerify:   %t", c.LdapSkipTlsVerify))
 	logger.Log(fmt.Sprintf("Health check user:   %s", c.HealthCheckUser))
 	logger.Log(fmt.Sprintf("SharedSecret:        %s", strings.Repeat("*", len(c.SharedSecret))))
-	logger.Log(fmt.Sprintf("Debug                %t", c.Debug))
+	logger.Log(fmt.Sprintf("Debug:               %t", c.Debug))
 
 	return c
 }
