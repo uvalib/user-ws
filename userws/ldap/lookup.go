@@ -7,6 +7,7 @@ import (
 	"github.com/uvalib/user-ws/userws/api"
 	"github.com/uvalib/user-ws/userws/config"
 	"github.com/uvalib/user-ws/userws/logger"
+	"net"
 	"regexp"
 	"sort"
 	"time"
@@ -33,10 +34,13 @@ func openConnection() (*ldap.Conn, error) {
 
 	// are we using TLS for our connection
 	if config.Configuration.LdapUseTls == true {
+		dialer := &net.Dialer{
+			Timeout: time.Second*time.Duration(config.Configuration.ServiceTimeout),
+		}
 		tlsConf := &tls.Config{
 			InsecureSkipVerify: config.Configuration.LdapSkipTlsVerify,
 		}
-		connection, err := ldap.DialTLS("tcp", config.Configuration.LdapEndpoint, tlsConf)
+		connection, err := ldap.DialTLSDialer("tcp", config.Configuration.LdapEndpoint, tlsConf, dialer)
 		return connection, err
 	} else {
 		connection, err := ldap.DialTimeout("tcp", config.Configuration.LdapEndpoint,
