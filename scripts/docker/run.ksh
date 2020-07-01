@@ -1,25 +1,31 @@
-if [ -z "$DOCKER_HOST" ]; then
-   echo "ERROR: no DOCKER_HOST defined"
-   exit 1
-fi
+#if [ -z "$DOCKER_HOST" ]; then
+#   echo "ERROR: no DOCKER_HOST defined"
+#   exit 1
+#fi
 
 # set the definitions
 INSTANCE=user-ws
 NAMESPACE=uvadave
 
+if [ -z "$DOCKER_HOST" ]; then
+   DOCKER_TOOL=docker
+else
+   DOCKER_TOOL=docker-17.04.0
+fi
+
 # stop the running instance
-docker stop $INSTANCE
+$DOCKER_TOOL stop $INSTANCE
 
 # remove the instance
-docker rm $INSTANCE
+$DOCKER_TOOL rm $INSTANCE
 
 # remove the previously tagged version
-docker rmi $NAMESPACE/$INSTANCE:current  
+$DOCKER_TOOL rmi $NAMESPACE/$INSTANCE:current  
 
 # tag the latest as the current
-docker tag -f $NAMESPACE/$INSTANCE:latest $NAMESPACE/$INSTANCE:current
+$DOCKER_TOOL tag -f $NAMESPACE/$INSTANCE:latest $NAMESPACE/$INSTANCE:current
 
-docker run -d -p 8010:8080 --log-opt tag=$INSTANCE --name $INSTANCE $NAMESPACE/$INSTANCE:latest
+$DOCKER_TOOL run -d -p 8010:8080 --log-opt tag=$INSTANCE --name $INSTANCE $NAMESPACE/$INSTANCE:latest
 
 # return status
 exit $?
