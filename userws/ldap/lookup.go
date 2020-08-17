@@ -35,7 +35,7 @@ func openConnection() (*ldap.Conn, error) {
 	// are we using TLS for our connection
 	if config.Configuration.LdapUseTls == true {
 		dialer := &net.Dialer{
-			Timeout: time.Second*time.Duration(config.Configuration.ServiceTimeout),
+			Timeout: time.Second * time.Duration(config.Configuration.ServiceTimeout),
 		}
 		tlsConf := &tls.Config{
 			InsecureSkipVerify: config.Configuration.LdapSkipTlsVerify,
