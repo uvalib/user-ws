@@ -54,17 +54,17 @@ func loadConfig() Config {
 	c.LdapBaseDn = strings.Replace(c.LdapBaseDn, "%20", " ", -1)
 	c.LdapBaseDn = strings.Replace(c.LdapBaseDn, "%3D", "=", -1)
 
-	logger.Log(fmt.Sprintf("ServicePort:         %s", c.ServicePort))
-	logger.Log(fmt.Sprintf("ServiceTimeout:      %d", c.ServiceTimeout))
-	logger.Log(fmt.Sprintf("LdapEndpoint:        %s", c.LdapEndpoint))
-	logger.Log(fmt.Sprintf("LdapBindAccount:     %s", c.LdapBindAccount))
-	logger.Log(fmt.Sprintf("LdapBindPassword:    %s", strings.Repeat("*", len(c.LdapBindPassword))))
-	logger.Log(fmt.Sprintf("LdapBaseDn:          %s", c.LdapBaseDn))
-	logger.Log(fmt.Sprintf("LdapUseTls:          %t", c.LdapUseTls))
-	logger.Log(fmt.Sprintf("LdapSkipTlsVerify:   %t", c.LdapSkipTlsVerify))
-	logger.Log(fmt.Sprintf("Health check user:   %s", c.HealthCheckUser))
-	logger.Log(fmt.Sprintf("SharedSecret:        %s", strings.Repeat("*", len(c.SharedSecret))))
-	logger.Log(fmt.Sprintf("Debug:               %t", c.Debug))
+	logger.Log(fmt.Sprintf("INFO: ServicePort:         %s", c.ServicePort))
+	logger.Log(fmt.Sprintf("INFO: ServiceTimeout:      %d", c.ServiceTimeout))
+	logger.Log(fmt.Sprintf("INFO: LdapEndpoint:        %s", c.LdapEndpoint))
+	logger.Log(fmt.Sprintf("INFO: LdapBindAccount:     %s", c.LdapBindAccount))
+	logger.Log(fmt.Sprintf("INFO: LdapBindPassword:    %s", strings.Repeat("*", len(c.LdapBindPassword))))
+	logger.Log(fmt.Sprintf("INFO: LdapBaseDn:          %s", c.LdapBaseDn))
+	logger.Log(fmt.Sprintf("INFO: LdapUseTls:          %t", c.LdapUseTls))
+	logger.Log(fmt.Sprintf("INFO: LdapSkipTlsVerify:   %t", c.LdapSkipTlsVerify))
+	logger.Log(fmt.Sprintf("INFO: Health check user:   %s", c.HealthCheckUser))
+	logger.Log(fmt.Sprintf("INFO: SharedSecret:        %s", strings.Repeat("*", len(c.SharedSecret))))
+	logger.Log(fmt.Sprintf("INFO: Debug:               %t", c.Debug))
 
 	return c
 }

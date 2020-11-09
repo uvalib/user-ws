@@ -87,10 +87,10 @@ func LookupUser(userID string) (*api.User, error) {
 	}
 
 	if len(sr.Entries) == 1 {
-		logger.Log(fmt.Sprintf("Lookup %s OK, time %s", userID, time.Since(start)))
+		logger.Log(fmt.Sprintf("INFO: lookup %s OK, time %s", userID, time.Since(start)))
 
 		if config.Configuration.Debug == true {
-			logger.Log(fmt.Sprintf("RES: %#v", sr.Entries[0].Attributes))
+			logger.Log(fmt.Sprintf("DEBUG: %#v", sr.Entries[0].Attributes))
 			sr.PrettyPrint(0)
 		}
 
@@ -115,7 +115,7 @@ func LookupUser(userID string) (*api.User, error) {
 		}, nil
 	}
 
-	logger.Log(fmt.Sprintf("Lookup %s NOT FOUND, time %s", userID, time.Since(start)))
+	logger.Log(fmt.Sprintf("WARNING: lookup %s NOT FOUND, time %s", userID, time.Since(start)))
 
 	// return empty user if not found
 	return nil, nil
