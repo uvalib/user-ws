@@ -18,12 +18,13 @@ var attributes = []string{
 	"givenName",
 	"initials",
 	"sn",
-	"description",                // this is a multi-field
-	"uvaDisplayDepartment",       // this is a multi-field
-	"title",                      // this is a multi-field
-	"physicalDeliveryOfficeName", // this is a multi-field
-	"telephoneNumber",            // this is a multi-field
+	"description",                // multi-field
+	"uvaDisplayDepartment",       // multi-field
+	"title",                      // multi-field
+	"physicalDeliveryOfficeName", // multi-field
+	"telephoneNumber",            // multi-field
 	"mail",
+	"uvaPersonUniversityID",
 	"uvRestrict",
 }
 
@@ -66,7 +67,7 @@ func LookupUser(userID string) (*api.User, error) {
 
 	// if we have credentials then attempt to use them
 	if len(config.Configuration.LdapBindAccount) != 0 && len(config.Configuration.LdapBindPassword) != 0 {
-		err := connection.Bind(config.Configuration.LdapBindAccount, config.Configuration.LdapBindPassword)
+		err = connection.Bind(config.Configuration.LdapBindAccount, config.Configuration.LdapBindPassword)
 		if err != nil {
 			logger.Log(fmt.Sprintf("ERROR: Cannot bind: %s\n", err.Error()))
 			return nil, err
@@ -96,7 +97,7 @@ func LookupUser(userID string) (*api.User, error) {
 
 		// a special case
 		private := "false"
-		if len(sr.Entries[0].GetAttributeValue(attributes[10])) != 0 {
+		if len(sr.Entries[0].GetAttributeValue(attributes[11])) != 0 {
 			private = "true"
 		}
 		return &api.User{
@@ -111,6 +112,7 @@ func LookupUser(userID string) (*api.User, error) {
 			Office:      makeOrderedField(sr.Entries[0].GetAttributeValues(attributes[7])),
 			Phone:       makeOrderedField(sr.Entries[0].GetAttributeValues(attributes[8])),
 			Email:       sr.Entries[0].GetAttributeValue(attributes[9]),
+			UvaID:       sr.Entries[0].GetAttributeValue(attributes[10]),
 			Private:     private,
 		}, nil
 	}

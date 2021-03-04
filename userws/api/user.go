@@ -5,6 +5,7 @@ package api
 //
 type User struct {
 	UserID      string   `json:"cid,omitempty"`
+	UvaID       string   `json:"uva_id,omitempty"`
 	DisplayName string   `json:"display_name,omitempty"`
 	FirstName   string   `json:"first_name,omitempty"`
 	Initials    string   `json:"initials,omitempty"`
