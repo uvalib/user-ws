@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/uvalib/user-ws/userws/logger"
 	"net/http"
+	"regexp"
 	"time"
 )
 
@@ -14,6 +15,8 @@ func HandlerLogger(inner http.Handler, name string) http.Handler {
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
+		matchExpr := fmt.Sprintf("\\?auth=.*$")
+		re := regexp.MustCompile(matchExpr)
 		start := time.Now()
 
 		inner.ServeHTTP(w, r)
@@ -21,7 +24,7 @@ func HandlerLogger(inner http.Handler, name string) http.Handler {
 		logger.Log(fmt.Sprintf(
 			"%s %s (%s) -> method %s, time %s",
 			r.Method,
-			r.RequestURI,
+			re.ReplaceAllString(r.RequestURI, "?auth=<secret>"),
 			r.RemoteAddr,
 			name,
 			time.Since(start),
