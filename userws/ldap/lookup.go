@@ -26,6 +26,7 @@ var attributes = []string{
 	"mail",
 	"uvaPersonUniversityID",
 	"uvRestrict",
+	"uvaPersonIAMAffiliation",    // multi-field
 }
 
 //
@@ -111,6 +112,7 @@ func LookupUser(userID string) (*api.User, error) {
 			Title:       makeOrderedField(sr.Entries[0].GetAttributeValues(attributes[6])),
 			Office:      makeOrderedField(sr.Entries[0].GetAttributeValues(attributes[7])),
 			Phone:       makeOrderedField(sr.Entries[0].GetAttributeValues(attributes[8])),
+			Affiliation: makeOrderedField(sr.Entries[0].GetAttributeValues(attributes[12])),
 			Email:       sr.Entries[0].GetAttributeValue(attributes[9]),
 			UvaID:       sr.Entries[0].GetAttributeValue(attributes[10]),
 			Private:     private,

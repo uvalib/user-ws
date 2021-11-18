@@ -15,6 +15,7 @@ type User struct {
 	Title       []string `json:"title,omitempty"`
 	Office      []string `json:"office,omitempty"`
 	Phone       []string `json:"phone,omitempty"`
+	Affiliation []string `json:"affiliation,omitempty"`
 	Email       string   `json:"email,omitempty"`
 	Private     string   `json:"private,omitempty"`
 }
