@@ -1,7 +1,7 @@
 #
 # build the target application
 #
-FROM public.ecr.aws/docker/library/golang:1.17-alpine3.15 as builder
+FROM public.ecr.aws/docker/library/golang:1.18-alpine3.15 as builder
 
 # update the packages
 RUN apk update && apk upgrade && apk add --no-cache make
