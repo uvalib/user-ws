@@ -26,7 +26,7 @@ var attributes = []string{
 	"mail",
 	"uvaPersonUniversityID",
 	"uvRestrict",
-	"uvaPersonIAMAffiliation",    // multi-field
+	"uvaPersonIAMAffiliation", // multi-field
 }
 
 //
