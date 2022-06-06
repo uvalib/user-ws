@@ -13,4 +13,4 @@ fi
 INSTANCE=user-ws
 NAMESPACE=uvadave
 
-$DOCKER_TOOL run -ti -p 8180:8080 $NAMESPACE/$INSTANCE /bin/bash -l
+$DOCKER_TOOL run -ti -p 8080:8080 $NAMESPACE/$INSTANCE /bin/bash -l
