@@ -46,7 +46,7 @@ run:
 	cd $(BIN); ln -s $(BASE_NAME).darwin $(BASE_NAME)
 	$(RUNNER)
 
-deps:
+dep:
 	cd $(SRC_TREE); $(GOGET) -u
 	$(GOMOD) tidy
 	$(GOMOD) verify
