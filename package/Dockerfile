@@ -14,7 +14,7 @@ RUN make build-linux
 #
 # build the target container
 #
-FROM public.ecr.aws/docker/library/alpine:3.17
+FROM public.ecr.aws/docker/library/alpine:3.18
 
 # update the packages
 RUN apk update && apk upgrade && apk add bash tzdata ca-certificates curl && rm -fr /var/cache/apk/*
