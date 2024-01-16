@@ -10,7 +10,7 @@ NAMESPACE=uvadave
 if [ -z "$DOCKER_HOST" ]; then
    DOCKER_TOOL=docker
 else
-   DOCKER_TOOL=docker-17.04.0
+   DOCKER_TOOL=docker-legacy
 fi
 
 # stop the running instance
