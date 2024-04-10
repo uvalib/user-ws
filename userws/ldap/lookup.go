@@ -29,9 +29,7 @@ var attributes = []string{
 	"uvaPersonIAMAffiliation", // multi-field
 }
 
-//
 // openConnection -- open the connection to the LDAP server
-//
 func openConnection() (*ldap.Conn, error) {
 
 	// are we using TLS for our connection
@@ -51,9 +49,7 @@ func openConnection() (*ldap.Conn, error) {
 	}
 }
 
-//
 // LookupUser -- the user lookup handler
-//
 func LookupUser(userID string) (*api.User, error) {
 
 	start := time.Now()
@@ -125,9 +121,7 @@ func LookupUser(userID string) (*api.User, error) {
 	return nil, nil
 }
 
-//
 // makeOrderedField -- Convert the multi-field into an ordered array stripping out the cruft
-//
 func makeOrderedField(fields []string) []string {
 
 	mf := make([]string, len(fields))

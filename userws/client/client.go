@@ -14,9 +14,7 @@ import (
 var debugHTTP = false
 var serviceTimeout = 5
 
-//
 // HealthCheck -- calls the service health check method
-//
 func HealthCheck(endpoint string) int {
 
 	url := fmt.Sprintf("%s/healthcheck", endpoint)
@@ -38,9 +36,7 @@ func HealthCheck(endpoint string) int {
 	return resp.StatusCode
 }
 
-//
 // VersionCheck -- calls the service version check method
-//
 func VersionCheck(endpoint string) (int, string) {
 
 	url := fmt.Sprintf("%s/version", endpoint)
@@ -68,9 +64,7 @@ func VersionCheck(endpoint string) (int, string) {
 	return resp.StatusCode, r.Version
 }
 
-//
 // MetricsCheck -- calls the service metrics method
-//
 func MetricsCheck(endpoint string) (int, string) {
 
 	url := fmt.Sprintf("%s/metrics", endpoint)
@@ -92,9 +86,7 @@ func MetricsCheck(endpoint string) (int, string) {
 	return resp.StatusCode, body
 }
 
-//
 // UserDetails -- calls the service user details method
-//
 func UserDetails(endpoint string, username string, token string) (int, *api.User) {
 
 	url := fmt.Sprintf("%s/user/%s?auth=%s", endpoint, username, token)

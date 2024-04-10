@@ -8,9 +8,7 @@ import (
 	"net/http"
 )
 
-//
 // UserLookup -- do the user lookup
-//
 func UserLookup(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	userID := vars["userId"]

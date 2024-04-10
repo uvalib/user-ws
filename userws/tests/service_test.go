@@ -20,8 +20,8 @@ var cfg = loadConfig()
 var goodUser = cfg.TestUser
 var badUser = "xxyyzz"
 
-//var goodToken = cfg.Token
-//var badToken = "badness"
+// var goodToken = cfg.Token
+// var badToken = "badness"
 var empty = " "
 
 func emptyFields(fields []string) bool {

@@ -1,8 +1,6 @@
 package api
 
-//
 // User -- data associated with a user
-//
 type User struct {
 	UserID      string   `json:"cid,omitempty"`
 	UvaID       string   `json:"uva_id,omitempty"`

@@ -7,7 +7,6 @@ import (
 	"strings"
 )
 
-//
 // Config -- our configuration structure
 type Config struct {
 	ServiceName       string
@@ -24,9 +23,7 @@ type Config struct {
 	Debug             bool
 }
 
-//
 // Configuration -- our configuration instance
-//
 var Configuration = loadConfig()
 
 func loadConfig() Config {

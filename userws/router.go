@@ -46,9 +46,7 @@ var routes = routeSlice{
 	},
 }
 
-//
 // NewRouter -- build and return the router
-//
 func NewRouter() *mux.Router {
 
 	router := mux.NewRouter().StrictSlash(true)
