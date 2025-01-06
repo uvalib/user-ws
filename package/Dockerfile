@@ -36,7 +36,7 @@ RUN chown -R docker $APP_HOME && chgrp -R sse $APP_HOME
 
 # port and run command
 EXPOSE 8080
-ENTRYPOINT ["scripts/entry.sh"]
+CMD ["scripts/entry.sh"]
 
 # Move in necessary assets
 COPY scripts/entry.sh $APP_HOME/scripts/entry.sh
